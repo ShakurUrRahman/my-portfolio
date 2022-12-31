@@ -1,7 +1,5 @@
-import { Padding } from '@mui/icons-material';
-import { Button } from '@mui/material';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../Styles/Product.css'
 
 const Product = ({ item }) => {
@@ -14,12 +12,11 @@ const Product = ({ item }) => {
                     <div className="p-circle"></div>
                     <div className="p-circle"></div>
                 </div>
-                <Link state={{ img, link }} to={`/product/${id}`} className='see-details' style={{ textDecoration: "none", color: "#21325e" }}>See Details</Link>
+                <Link to={`/product/${id}`} className='see-details' style={{ textDecoration: "none", color: "#21325e" }}>See Details</Link>
             </div>
             <a href={link} target="_blank" rel="noreferrer">
                 <img src={img} alt="" className="p-img" />
             </a>
-
         </div>
     );
 };
