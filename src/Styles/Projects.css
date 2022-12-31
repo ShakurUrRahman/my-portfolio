@@ -53,6 +53,10 @@
     font-size: 25px;
 }
 
+.see-details:hover {
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 1300px) {
     .projectList {
         grid-template-columns: 1fr 1fr;

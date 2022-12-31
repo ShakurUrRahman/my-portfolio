@@ -1,8 +1,8 @@
 export const products = [
     {
         id: 1,
-        img: "",
-        link: "",
+        img: "https://i.ibb.co/cF0yBzh/1.png",
+        link: "https://lovin-book-store.netlify.app/",
     },
     {
         id: 2,
