@@ -6,21 +6,19 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-const SingleProduct = ({ img, link }) => {
+const SingleProduct = () => {
+    const location = useLocation()
 
+    const image = location.state.img;
+    const link = location.state.link;
 
-
-    // const location = useLocation()
-
-    // const image = location.state.img;
-    // const link = location.state.link;
     return (
         <Card sx={{ maxWidth: 1200, mx: 25, my: 5 }} >
             <CardActionArea>
                 <CardMedia
                     component="img"
                     height="1840"
-                    image={img}
+                    image={image}
                     alt="green iguana"
                 />
                 <CardContent>

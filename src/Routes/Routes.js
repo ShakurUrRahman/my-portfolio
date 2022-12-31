@@ -29,6 +29,7 @@ export const router = createBrowserRouter([
             {
                 path: '/product/:id',
                 element: <SingleProduct></SingleProduct>,
+                loader: ({ params }) => (`https://raw.githubusercontent.com/ShakurUrRahman/new-portfolio/main/public/data.json/${params.id}`)
             },
             {
                 path: '/blogs',

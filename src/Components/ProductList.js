@@ -20,9 +20,7 @@ const ProductList = () => {
                 {products.map((item) => (
                     <Product
                         key={item.id}
-                        img={item.img}
-                        link={item.link}
-                        id={item.id}
+                        item={item}
                     />
                 ))}
             </div>
