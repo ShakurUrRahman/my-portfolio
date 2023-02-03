@@ -23,7 +23,7 @@ const ProductList = () => {
                     />
                 ))}
             </div>
-            <Button style={{ marginTop: "20px", backgroundColor: "#21325e" }} variant="contained"><Link style={{ textDecoration: "none", color: "white", padding: "10px" }} to="/projects">All Projects</Link></Button>
+            <Button style={{ marginTop: "20px" }} variant="contained"><Link style={{ textDecoration: "none", color: "white", padding: "10px" }} to="/projects">All Projects</Link></Button>
         </div>
     );
 };
