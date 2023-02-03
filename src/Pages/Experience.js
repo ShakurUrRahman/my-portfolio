@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     VerticalTimeline,
     VerticalTimelineElement,
@@ -7,10 +7,13 @@ import "react-vertical-timeline-component/style.min.css";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
 import '../Styles/Experience.css'
+import { ThemeContext } from "../Context";
 
 function Experience() {
+    const theme = useContext(ThemeContext);
+    const darkMode = theme.state.darkMode;
     return (
-        <div className="experience">
+        <div className="experience" style={{ backgroundColor: darkMode && "#575757", color: darkMode && "black" }} >
             <VerticalTimeline lineColor="#3e497a">
                 <VerticalTimelineElement
                     className="vertical-timeline-element--education"

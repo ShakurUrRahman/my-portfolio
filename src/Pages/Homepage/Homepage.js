@@ -1,7 +1,7 @@
-import React from 'react';
 import About from '../../Components/About';
 import Contact from '../../Components/Contact';
 import ProductList from '../../Components/ProductList';
+import Toggle from '../../Components/Toggle';
 import Home from '../Home';
 
 const Homepage = () => {

@@ -2,8 +2,12 @@ import "../Styles/Contact.css";
 import Phone from "../../src/img/phone.png";
 import Email from "../../src/img/email.png";
 import Address from "../../src/img/address.png";
+import { useContext } from "react";
+import { ThemeContext } from "../Context";
 
 const Contact = () => {
+    const theme = useContext(ThemeContext);
+    const darkMode = theme.state.darkMode;
     return (
         <div className="c">
             <div className="c-bg"></div>
@@ -31,10 +35,10 @@ const Contact = () => {
                         freelancing if the right project comes along. me.
                     </p>
                     <form action="https://public.herotofu.com/v1/a78ffc00-7a35-11ed-ae39-e5d94069e299" method="post">
-                        <input name="Name" placeholder="Name" id="name" type="text" required />
-                        <input type="text" placeholder="Subject" name="Subject" />
-                        <input name="Email" placeholder="Email" id="email" type="email" required />
-                        <textarea rows="5" placeholder="Message" name="message" />
+                        <input style={{ backgroundColor: darkMode && "#333", color: darkMode && "white" }} name="Name" placeholder="Name" id="name" type="text" required />
+                        <input style={{ backgroundColor: darkMode && "#333", color: darkMode && "white" }} type="text" placeholder="Subject" name="Subject" />
+                        <input style={{ backgroundColor: darkMode && "#333", color: darkMode && "white" }} name="Email" placeholder="Email" id="email" type="email" required />
+                        <textarea style={{ backgroundColor: darkMode && "#333", color: darkMode && "white" }} rows="5" placeholder="Message" name="message" />
                         <button type="submit" value="Download CTA">Send</button>
                     </form>
                 </div>

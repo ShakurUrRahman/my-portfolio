@@ -65,7 +65,7 @@
     height: 50px;
     font-size: 30px;
     font-weight: bold;
-    color: #3d61bc;
+    color: #1a5c3f;
     display: flex;
     align-items: center;
 }
@@ -76,11 +76,12 @@
     height: 90%;
     object-fit: cover;
     position: absolute;
+    border-radius: 20px;
 }
 
 .i-bg {
     clip-path: polygon(100% 0%, 100% 51%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
-    background-color: #21325E;
+    background: linear-gradient(#94d575, #4fd312);
     width: 95%;
     height: 90%;
     position: absolute;

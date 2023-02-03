@@ -3,8 +3,9 @@ import Blogs from '../Pages/Blogs';
 import Experience from '../Pages/Experience';
 import Homepage from '../Pages/Homepage/Homepage';
 import Projects from '../Pages/Projects';
-import SingleProduct from '../Pages/SingleProduct';
+import SingleProduct from '../Pages/SingleProject';
 import { products } from '../data';
+import SingleProject from '../Pages/SingleProject';
 const { createBrowserRouter } = require("react-router-dom");
 
 
@@ -27,8 +28,8 @@ export const router = createBrowserRouter([
                 element: <Projects></Projects>
             },
             {
-                path: '/product/:id',
-                element: <SingleProduct></SingleProduct>
+                path: '/project/:id',
+                element: <SingleProject></SingleProject>
             },
             {
                 path: '/blogs',

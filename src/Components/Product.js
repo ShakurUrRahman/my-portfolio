@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/Product.css'
 
-const Product = ({ item }) => {
-    const { img, link, id } = item;
+const Product = ({ item, id }) => {
+    const { img, link } = item;
     return (
         <div className="p">
             <div className="p-browser" style={{ display: "flex", justifyContent: "space-between", }}>
@@ -12,7 +12,7 @@ const Product = ({ item }) => {
                     <div className="p-circle"></div>
                     <div className="p-circle"></div>
                 </div>
-                <Link to={`/product/${id}`} className='see-details' style={{ textDecoration: "none", color: "#21325e" }}>See Details</Link>
+                <Link to={"/project/" + id} className='see-details' style={{ textDecoration: "none", color: "#21325e" }}>See Details</Link>
             </div>
             <a href={link} target="_blank" rel="noreferrer">
                 <img src={img} alt="" className="p-img" />

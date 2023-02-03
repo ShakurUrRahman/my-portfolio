@@ -1,4 +1,4 @@
-import React, { Link } from "react";
+import React from "react";
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -9,8 +9,6 @@ function Footer() {
     return (
         <div className="footer">
             <div className="socialMedia">
-
-
                 <a href="https://www.linkedin.com/in/shakururrahman/" rel="noreferrer" target="_blank"><LinkedInIcon /></a>
                 <a href="mailto:shakururrahman@gmail.com" rel="noreferrer" target="_blank"><LocalPostOfficeIcon /></a>
                 <TwitterIcon />
