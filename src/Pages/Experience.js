@@ -14,11 +14,11 @@ function Experience() {
     const darkMode = theme.state.darkMode;
     return (
         <div className="experience" style={{ backgroundColor: darkMode && "#575757", color: darkMode && "black" }} >
-            <VerticalTimeline lineColor="#3e497a">
+            <VerticalTimeline lineColor="#1a258a">
                 <VerticalTimelineElement
                     className="vertical-timeline-element--education"
                     date="2007 - 2008"
-                    iconStyle={{ background: "#3e497a", color: "#fff" }}
+                    iconStyle={{ background: "#1a258a", color: "#fff" }}
                     icon={<SchoolIcon />}
                 >
                     <h3 className="vertical-timeline-element-title">
@@ -29,7 +29,7 @@ function Experience() {
                 <VerticalTimelineElement
                     className="vertical-timeline-element--education"
                     date="2009 - 2015"
-                    iconStyle={{ background: "#3e497a", color: "#fff" }}
+                    iconStyle={{ background: "#1a258a", color: "#fff" }}
                     icon={<SchoolIcon />}
                 >
                     <h3 className="vertical-timeline-element-title">

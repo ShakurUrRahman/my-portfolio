@@ -6,7 +6,7 @@
 .c-bg {
     width: 20px;
     height: 100%;
-    background: linear-gradient(#da2887, #4fd312);
+    background: linear-gradient(#1a258a, #50508d);
     position: absolute;
 }
 
@@ -74,7 +74,7 @@ textarea {
 button {
     border: none;
     padding: 10px 20px;
-    background: linear-gradient(#da2887, #4fd312);
+    background: linear-gradient(#1a258a, #50508d);
     color: white;
     font-weight: 500;
     cursor: pointer;
