@@ -28,7 +28,7 @@ function Navbar() {
                 <Link to="/projects"> Projects </Link>
                 <Link to="/experience"> Experience </Link>
                 <Link to="/blogs"> Blogs </Link>
-                <a href="https://drive.google.com/file/d/1-KPiJwzzewAfbR5CeD7wPKbTUfyWzBgi/view" target="_blank" rel="noreferrer"> Download My RESUME </a>
+                <a href="https://drive.google.com/file/d/1ScAcWNctk5ql4FWTpMAEOxpZa9fDF8nk/view" target="_blank" rel="noreferrer">Download My RESUME </a>
             </div>
         </div>
     );

@@ -39,7 +39,7 @@ function Experience() {
                 </VerticalTimelineElement>
                 <VerticalTimelineElement
                     className="vertical-timeline-element--work"
-                    date="215"
+                    date="2016"
                     iconStyle={{ background: "#e9d35b", color: "#fff" }}
                     icon={<WorkIcon />}
                 >
@@ -49,24 +49,23 @@ function Experience() {
                     <h4 className="vertical-timeline-element-subtitle">
                         Mirpur, Dhaka
                     </h4>
-                    <p>Developed the backend infrastructure for 3 projects.</p>
+                    <p>Organized several clients projects.</p>
                 </VerticalTimelineElement>
 
                 <VerticalTimelineElement
                     className="vertical-timeline-element--work"
-                    date="2020 - present"
+                    date="2016 - present"
                     iconStyle={{ background: "#e9d35b", color: "#fff" }}
                     icon={<WorkIcon />}
                 >
                     <h3 className="vertical-timeline-element-title">
-                        Full Stack Engineer - Twitch
+                        Inside Sales Associate - Quantanite
                     </h3>
                     <h4 className="vertical-timeline-element-subtitle">
-                        San Francisco, CA
+                        Mirpur, Dhaka
                     </h4>
                     <p>
-                        Helped the team launch 2 major features by working both in the front
-                        end and back end.
+                        Helped the team to growth inside sales.
                     </p>
                 </VerticalTimelineElement>
             </VerticalTimeline>

@@ -17,7 +17,7 @@ export const products = [
     },
     {
         img: "https://i.ibb.co/GV4QJss/muslims-daily-activities-netlify-app-Nest-Hub-Max.png",
-        link: "https://muslims-daily-activities.netlify.app/",
+        link: "https://muslim-daily-activities.netlify.app/",
     },
     {
         img: "https://i.ibb.co/1TpGT6R/myfivechamps-netlify-app-Nest-Hub-Max.png",
