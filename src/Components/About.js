@@ -4,7 +4,7 @@ import Ph from '../assets/ph.jpg'
 
 const About = () => {
     return (
-        <div className="a">
+        <div className="a" >
             <div className="a-left">
                 <div className="a-card bg"></div>
                 <div className="a-card">
