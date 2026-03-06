@@ -1,0 +1,63 @@
+export const initialData = {
+	about: {
+		name: "SHAKUR",
+		role: "Junior Web Developer",
+		bio: "I craft clean, purposeful digital experiences. Passionate about turning complex problems into elegant interfaces. Currently open to new opportunities.",
+		available: true,
+		avatar: null,
+		skills: [
+			{ name: "React / Next.js", level: 85 },
+			{ name: "TypeScript", level: 72 },
+			{ name: "Tailwind CSS", level: 90 },
+			{ name: "Node.js", level: 65 },
+			{ name: "Three.js", level: 50 },
+			{ name: "PostgreSQL", level: 60 },
+		],
+		socials: { github: "#", linkedin: "#", twitter: "#" },
+	},
+	projects: [
+		{
+			id: 1,
+			title: "Orbit — Task Manager",
+			description:
+				"A drag-and-drop task manager with real-time sync, built with React DnD and Supabase.",
+			image: null,
+			tags: ["React", "Supabase", "Tailwind"],
+			github: "#",
+			live: "#",
+			visible: true,
+		},
+		{
+			id: 2,
+			title: "Lumina — E-Commerce",
+			description:
+				"Minimalist storefront with Stripe checkout, product filtering, and an admin dashboard.",
+			image: null,
+			tags: ["Next.js", "Stripe", "PostgreSQL"],
+			github: "#",
+			live: "#",
+			visible: true,
+		},
+		{
+			id: 3,
+			title: "Pulse — Analytics",
+			description:
+				"Real-time web analytics dashboard with custom chart components and CSV export.",
+			image: null,
+			tags: ["TypeScript", "Chart.js", "Express"],
+			github: "#",
+			live: "#",
+			visible: true,
+		},
+	],
+	messages: [
+		{
+			id: 1,
+			name: "Sarah Chen",
+			email: "sarah@example.com",
+			message:
+				"Love your work! Would you be interested in a freelance project?",
+			date: "2025-02-14",
+		},
+	],
+};
