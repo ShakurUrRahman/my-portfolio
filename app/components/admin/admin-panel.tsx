@@ -5,11 +5,17 @@ import AdminLogin from "./admin-login";
 import AdminDashboard from "./admin-dashboard";
 import AdminMessages from "./admin-message";
 
-export default function AdminPanel({ data, setData, setPage }) {
+export default function AdminPanel({ data, setData, setPage, onClose }) {
 	const [authed, setAuthed] = useState(false);
 	const [tab, setTab] = useState("dashboard");
 	if (!authed)
-		return <AdminLogin onAuth={() => setAuthed(true)} setPage={setPage} />;
+		return (
+			<AdminLogin
+				onAuth={() => setAuthed(true)}
+				setPage={setPage}
+				onClose={onClose}
+			/>
+		);
 
 	const tabs = [
 		{ key: "dashboard", label: "📊 Dashboard" },
@@ -42,14 +48,10 @@ export default function AdminPanel({ data, setData, setPage }) {
 				</div>
 				<div className="flex gap-2 sm:gap-3">
 					<button
-						onClick={() => setPage("home")}
-						className="btn-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-2"
-						style={{ cursor: "pointer" }}
-					>
-						← Portfolio
-					</button>
-					<button
-						onClick={() => setAuthed(false)}
+						onClick={() => {
+							setAuthed(false);
+							onClose();
+						}}
 						className="btn-logout font-mono text-xs rounded-lg px-3 sm:px-4 py-2"
 						style={{ cursor: "pointer" }}
 					>

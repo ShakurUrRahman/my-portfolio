@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-export default function Nav({ page, available, scrollToSection }) {
+export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 	const [scrolled, setScrolled] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [drawerVisible, setDrawerVisible] = useState(false);
 
 	const links = ["home", "about", "projects", "contact"];
-	const linkIndex = { home: 0, about: 1, projects: 2, contact: 3, admin: 4 };
+	const linkIndex = { home: 0, about: 1, projects: 2, contact: 3 };
 
 	useEffect(() => {
 		const fn = () => setScrolled(window.scrollY > 40);
@@ -44,7 +44,10 @@ export default function Nav({ page, available, scrollToSection }) {
 			>
 				{/* Logo */}
 				<button
-					onClick={() => go("home")}
+					onClick={() => {
+						go("home");
+						onLogoClick();
+					}}
 					className="font-syne text-lg sm:text-xl font-extrabold text-white flex items-center gap-2"
 					style={{
 						background: "none",
@@ -60,7 +63,6 @@ export default function Nav({ page, available, scrollToSection }) {
 					/>
 					SR
 				</button>
-
 				{/* Desktop links */}
 				<div className="hidden md:flex items-center gap-5 lg:gap-8">
 					{links.map((l) => (
@@ -77,13 +79,6 @@ export default function Nav({ page, available, scrollToSection }) {
 							{l}
 						</button>
 					))}
-					<button
-						onClick={() => go("admin")}
-						className="btn-ghost font-mono text-xs uppercase tracking-wider rounded-lg px-3 lg:px-4 py-1"
-						style={{ cursor: "pointer" }}
-					>
-						Admin
-					</button>
 				</div>
 
 				{/* Hamburger */}
@@ -232,26 +227,6 @@ export default function Nav({ page, available, scrollToSection }) {
 						))}
 
 						{/* Admin button */}
-						<button
-							onClick={() => go("admin")}
-							style={{
-								marginTop: 28,
-								fontFamily: "'DM Mono',monospace",
-								fontSize: 13,
-								textTransform: "uppercase",
-								letterSpacing: "0.1em",
-								background: "rgba(139,92,246,.15)",
-								border: "1px solid rgba(139,92,246,.35)",
-								borderRadius: 12,
-								padding: "14px 20px",
-								color: "rgba(139,92,246,1)",
-								cursor: "pointer",
-								width: "100%",
-								transition: "all .2s",
-							}}
-						>
-							Admin Panel
-						</button>
 					</div>
 				</>
 			)}

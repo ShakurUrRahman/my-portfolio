@@ -19,6 +19,23 @@ export default function PortfolioApp() {
 	const [loaded, setLoaded] = useState(false);
 	const [page, setPage] = useState("home");
 	const scrollContainerRef = useRef(null);
+	const [adminOpen, setAdminOpen] = useState(false);
+	const logoClicks = useRef(0);
+	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const handleLogoClick = () => {
+		logoClicks.current += 1;
+
+		clearTimeout(logoTimer.current!);
+		logoTimer.current = setTimeout(() => {
+			logoClicks.current = 0;
+		}, 2000);
+
+		if (logoClicks.current === 5) {
+			logoClicks.current = 0;
+			setAdminOpen(true);
+		}
+	};
 
 	useEffect(() => {
 		fetch("/api/data")
@@ -87,16 +104,22 @@ export default function PortfolioApp() {
 		}
 	};
 
+	if (logoClicks.current === 5) {
+		logoClicks.current = 0;
+		setAdminOpen(true); // ← instead of scrollToSection(4)
+	}
 	return (
 		<>
 			<SpaceBackground />
 			<Cursor />
-			<Nav
-				page={page}
-				setPage={setPage}
-				available={data.about.available}
-				scrollToSection={scrollToSection}
-			/>
+			{!adminOpen && (
+				<Nav
+					page={page}
+					available={data.about.available}
+					scrollToSection={scrollToSection}
+					onLogoClick={handleLogoClick}
+				/>
+			)}
 
 			<div
 				ref={scrollContainerRef}
@@ -107,7 +130,7 @@ export default function PortfolioApp() {
 					scrollBehavior: "smooth",
 				}}
 			>
-				<div className="flex h-full" style={{ width: "500vw" }}>
+				<div className="flex h-full" style={{ width: "400vw" }}>
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-hidden"
 						style={{ zIndex: 1 }}
@@ -136,12 +159,23 @@ export default function PortfolioApp() {
 					>
 						<ContactSection onNewMessage={onNewMessage} />
 					</section>
-					<section
-						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
-						style={{ zIndex: 1 }}
-					>
-						<AdminPanel data={data} setData={setData} />
-					</section>
+					{adminOpen && (
+						<div
+							style={{
+								position: "fixed",
+								inset: 0,
+								zIndex: 999,
+								overflowY: "auto",
+								background: "#020208",
+							}}
+						>
+							<AdminPanel
+								data={data}
+								setData={setData}
+								onClose={() => setAdminOpen(false)}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

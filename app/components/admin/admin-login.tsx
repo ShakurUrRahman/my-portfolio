@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Glass } from "..";
 
-export default function AdminLogin({ onAuth, setPage }) {
+export default function AdminLogin({ onAuth, setPage, onClose }) {
 	const [pw, setPw] = useState(""),
 		[err, setErr] = useState(false);
 	const attempt = () => {
 		pw === "admin123" ? (setErr(false), onAuth()) : setErr(true);
 	};
 	return (
-		<div className="min-h-screen flex items-center justify-center px-4 sm:px-8">
+		<div className="min-h-screen flex items-center justify-center px-4 sm:px-8 relative">
+			<button
+				onClick={onClose}
+				className="btn-logout font-mono text-xs rounded-lg px-4 py-2 absolute right-0 top-0"
+				style={{ cursor: "pointer" }}
+			>
+				✕ Close
+			</button>
+
 			<Glass className="p-8 sm:p-10 md:p-12 w-full max-w-xs sm:max-w-sm text-center">
 				<div className="text-4xl sm:text-5xl mb-4 sm:mb-5">🔐</div>
 				<h2 className="font-syne font-bold text-white text-xl sm:text-2xl mb-2">
