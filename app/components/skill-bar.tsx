@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 export default function SkillBar({ name, level, index }) {
 	const [filled, setFilled] = useState(false);
 	const ref = useRef(null);
-
 	useEffect(() => {
 		const obs = new IntersectionObserver(
 			([e]) => {
@@ -15,7 +14,6 @@ export default function SkillBar({ name, level, index }) {
 		if (ref.current) obs.observe(ref.current);
 		return () => obs.disconnect();
 	}, [index]);
-
 	return (
 		<div ref={ref} className="mb-5">
 			<div className="flex justify-between mb-1">

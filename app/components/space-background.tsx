@@ -10,7 +10,6 @@ export default function SpaceBackground() {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 		const ctx = canvas.getContext("2d");
-
 		const resize = () => {
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
@@ -25,7 +24,6 @@ export default function SpaceBackground() {
 			speed: Math.random() * 0.004 + 0.001,
 			twinkleOffset: Math.random() * Math.PI * 2,
 		}));
-
 		nebulasRef.current = [
 			{
 				x: canvas.width * 0.15,
@@ -65,7 +63,6 @@ export default function SpaceBackground() {
 		const draw = () => {
 			t += 0.008;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 			const bg = ctx.createRadialGradient(
 				canvas.width * 0.4,
 				canvas.height * 0.3,
@@ -79,7 +76,6 @@ export default function SpaceBackground() {
 			bg.addColorStop(1, "#020208");
 			ctx.fillStyle = bg;
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 			nebulasRef.current.forEach((n, i) => {
 				const pulse = Math.sin(t * 0.4 + i * 1.2) * 0.04;
 				const grad = ctx.createRadialGradient(
@@ -104,7 +100,6 @@ export default function SpaceBackground() {
 				ctx.fill();
 				ctx.restore();
 			});
-
 			starsRef.current.forEach((s) => {
 				const tw =
 					Math.sin(t * s.speed * 60 + s.twinkleOffset) * 0.5 + 0.5;
@@ -116,7 +111,6 @@ export default function SpaceBackground() {
 				ctx.fill();
 				ctx.shadowBlur = 0;
 			});
-
 			if (Math.sin(t * 0.3) > 0.97) {
 				const sx = (Math.sin(t * 7) * 0.5 + 0.5) * canvas.width,
 					sy = Math.random() * canvas.height * 0.5,
@@ -137,7 +131,6 @@ export default function SpaceBackground() {
 				ctx.lineTo(sx + len, sy + len * 0.4);
 				ctx.stroke();
 			}
-
 			animRef.current = requestAnimationFrame(draw);
 		};
 		draw();

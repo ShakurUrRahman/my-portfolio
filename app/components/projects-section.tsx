@@ -7,76 +7,89 @@ const GRADIENTS = [
 ];
 const EMOJIS = ["🚀", "✨", "📊", "🎯", "⚡", "🌊"];
 
-export default function ProjectsPage({ data }) {
+export default function ProjectsSection({ data }) {
+	const visible = data.projects.filter((p) => p.visible);
 	return (
-		<div className="min-h-screen pt-36 pb-20 px-10 max-w-5xl mx-auto">
+		<div
+			className="min-h-screen
+      pt-24 sm:pt-28 md:pt-32 lg:pt-36
+      pb-12 sm:pb-16 md:pb-20
+      px-4 sm:px-6 md:px-10
+      max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl
+      mx-auto"
+		>
 			<SectionTitle label="002" title="Projects" />
+
+			{/* 1-col → sm: 1-col → md: 2-col → xl: 3-col */}
 			<div
-				className="grid gap-6 mt-12"
-				style={{
-					gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))",
-				}}
+				className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3
+        gap-4 sm:gap-5 md:gap-6 mt-8 sm:mt-10 md:mt-12"
 			>
-				{data.projects
-					.filter((p) => p.visible)
-					.map((p, i) => (
-						<Glass
-							key={p.id}
-							hover
-							className="p-8 flex flex-col gap-4"
+				{visible.map((p, i) => (
+					<Glass
+						key={p.id}
+						hover
+						className="p-5 sm:p-6 md:p-8 flex flex-col gap-3 sm:gap-4"
+					>
+						{/* Thumbnail */}
+						<div
+							className="h-32 sm:h-36 md:h-40 rounded-xl flex items-center justify-center
+              text-4xl sm:text-5xl overflow-hidden mb-1 sm:mb-2"
+							style={{
+								background: GRADIENTS[i % GRADIENTS.length],
+							}}
 						>
-							<div
-								className="h-40 rounded-xl flex items-center justify-center text-5xl overflow-hidden mb-2"
-								style={{
-									background: GRADIENTS[i % GRADIENTS.length],
-								}}
-							>
-								{p.image ? (
-									<img
-										src={p.image}
-										alt={p.title}
-										className="w-full h-full object-cover"
-									/>
-								) : (
-									EMOJIS[i % EMOJIS.length]
-								)}
-							</div>
-							<h3 className="font-syne font-bold text-white text-xl">
-								{p.title}
-							</h3>
-							<p
-								className="font-mono text-xs leading-loose"
-								style={{ color: "rgba(200,190,240,.65)" }}
-							>
-								{p.description}
-							</p>
-							<div className="flex flex-wrap gap-2">
-								{p.tags.map((tag) => (
-									<span key={tag} className="tag-badge">
-										{tag}
-									</span>
-								))}
-							</div>
-							<div className="flex gap-3 mt-auto pt-2">
-								{p.github && (
-									<a
-										href={p.github}
-										className="proj-ghost font-mono text-xs rounded-lg px-4 py-2 no-underline"
-									>
-										⌥ GitHub
-									</a>
-								)}
-								{p.live && (
-									<a
-										href={p.live}
-										className="proj-filled font-mono text-xs rounded-lg px-4 py-2 no-underline"
-									>
-										↗ Live
-									</a>
-								)}
-							</div>
-						</Glass>
-					))}
+							{p.image ? (
+								<img
+									src={p.image}
+									alt={p.title}
+									className="w-full h-full object-cover"
+								/>
+							) : (
+								EMOJIS[i % EMOJIS.length]
+							)}
+						</div>
+
+						<h3 className="font-syne font-bold text-white text-base sm:text-lg md:text-xl">
+							{p.title}
+						</h3>
+						<p
+							className="font-mono text-xs leading-loose"
+							style={{ color: "rgba(200,190,240,.65)" }}
+						>
+							{p.description}
+						</p>
+
+						{/* Tags */}
+						<div className="flex flex-wrap gap-1.5 sm:gap-2">
+							{p.tags.map((tag) => (
+								<span key={tag} className="tag-badge">
+									{tag}
+								</span>
+							))}
+						</div>
+
+						{/* Links */}
+						<div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-2">
+							{p.github && (
+								<a
+									href={p.github}
+									className="proj-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
+								>
+									⌥ GitHub
+								</a>
+							)}
+							{p.live && (
+								<a
+									href={p.live}
+									className="proj-filled font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
+								>
+									↗ Live
+								</a>
+							)}
+						</div>
+					</Glass>
+				))}
 			</div>
 		</div>
 	);

@@ -1,7 +1,7 @@
 export default function AdminField({ label, value, onChange }) {
 	return (
 		<div>
-			<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
+			<label className="block font-mono text-xs uppercase tracking-widest mb-1.5 sm:mb-2 text-purple-400">
 				{label}
 			</label>
 			<input

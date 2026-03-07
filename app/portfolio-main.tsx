@@ -4,43 +4,61 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import SpaceBackground from "./components/space-background";
 import Cursor from "./components/cursor";
 import SkillBar from "./components/skill-bar";
-import HorizontalNav from "./components/horizontal-nav";
+import HorizontalNav from "./components/nav";
 import { AnimatedTitle, Glass, SectionTitle } from "./components";
-import HomePage from "./components/home-section";
-import AboutPage from "./components/about-section";
-import ProjectsPage from "./components/projects-section";
-import ContactPage from "./components/contact-section";
+import HomeSection from "./components/home-section";
+import AboutSection from "./components/about-section";
+import ProjectsSection from "./components/projects-section";
+import ContactSection from "./components/contact-section";
 import AdminPanel from "./components/admin/admin-panel";
 import { initialData } from "@/data/data";
+import Nav from "./components/nav";
 
 export default function PortfolioApp() {
-	const [data, setData] = useState(initialData);
-	const [currentSection, setCurrentSection] = useState(0);
+	const [data, setData] = useState(null);
+	const [loaded, setLoaded] = useState(false);
+	const [page, setPage] = useState("home");
 	const scrollContainerRef = useRef(null);
-	const onNewMessage = useCallback(
-		(msg) => setData((d) => ({ ...d, messages: [msg, ...d.messages] })),
-		[],
-	);
 
 	useEffect(() => {
+		fetch("/api/data")
+			.then((r) => r.json())
+			.then((d) => {
+				setData(d);
+				setLoaded(true);
+			});
+	}, []);
+
+	// Save to API (and file) whenever data changes
+	// Debounced to avoid too many writes
+	useEffect(() => {
+		if (!loaded || !data || !data.about) return; // ← guard
+		const timer = setTimeout(() => {
+			fetch("/api/data", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			});
+		}, 800);
+		return () => clearTimeout(timer);
+	}, [data, loaded]);
+
+	useEffect(() => {
+		if (!loaded) return; // ← wait for data first
 		const container = scrollContainerRef.current;
 		if (!container) return;
 
 		const handleScroll = () => {
-			const scrollLeft = container.scrollLeft;
-			const sectionWidth = window.innerWidth;
-			const newSection = Math.round(scrollLeft / sectionWidth);
-			setCurrentSection(newSection);
+			const newSection = Math.round(
+				container.scrollLeft / window.innerWidth,
+			);
+			setPage(newSection);
 		};
 
-		// Convert vertical mouse wheel to horizontal scroll with smooth animation
 		const handleWheel = (e) => {
 			if (e.deltaY !== 0) {
 				e.preventDefault();
-				container.scrollBy({
-					left: e.deltaY * 0.0001,
-					behavior: "smooth",
-				});
+				container.scrollBy({ left: e.deltaY * 3, behavior: "smooth" });
 			}
 		};
 
@@ -51,8 +69,14 @@ export default function PortfolioApp() {
 			container.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("wheel", handleWheel);
 		};
-	}, []);
+	}, [loaded]); // ← re-run when loaded becomes true
 
+	const onNewMessage = useCallback(
+		(msg) => setData((d) => ({ ...d, messages: [msg, ...d.messages] })),
+		[],
+	);
+
+	if (!loaded) return null; // or a loading spinner
 	const scrollToSection = (index) => {
 		const container = scrollContainerRef.current;
 		if (container) {
@@ -67,10 +91,11 @@ export default function PortfolioApp() {
 		<>
 			<SpaceBackground />
 			<Cursor />
-			<HorizontalNav
-				currentSection={currentSection}
-				scrollToSection={scrollToSection}
+			<Nav
+				page={page}
+				setPage={setPage}
 				available={data.about.available}
+				scrollToSection={scrollToSection}
 			/>
 
 			<div
@@ -87,35 +112,36 @@ export default function PortfolioApp() {
 						className="w-screen h-full flex-shrink-0 snap-start overflow-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<HomePage
+						<HomeSection
 							data={data}
 							scrollToSection={scrollToSection}
+							setPage={setPage}
 						/>
 					</section>
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<AboutPage data={data} />
+						<AboutSection data={data} />
 					</section>
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<ProjectsPage data={data} />
+						<ProjectsSection data={data} />
 					</section>
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<ContactPage onNewMessage={onNewMessage} />
+						<ContactSection onNewMessage={onNewMessage} />
 					</section>
-					{/* <section
+					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
 						<AdminPanel data={data} setData={setData} />
-					</section> */}
+					</section>
 				</div>
 			</div>
 		</>

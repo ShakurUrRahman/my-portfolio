@@ -1,6 +1,6 @@
 export function SectionTitle({ label, title }) {
 	return (
-		<div className="flex items-baseline gap-5">
+		<div className="flex items-baseline gap-3 sm:gap-5">
 			<span
 				className="font-mono text-xs tracking-widest"
 				style={{ color: "rgba(139,92,246,.5)" }}
@@ -8,11 +8,8 @@ export function SectionTitle({ label, title }) {
 				{label}
 			</span>
 			<h2
-				className="font-syne font-extrabold text-white"
-				style={{
-					fontSize: "clamp(32px,5vw,56px)",
-					letterSpacing: "-0.02em",
-				}}
+				className="font-syne font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+				style={{ letterSpacing: "-0.02em" }}
 			>
 				{title}
 			</h2>

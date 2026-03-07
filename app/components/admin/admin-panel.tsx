@@ -5,10 +5,11 @@ import AdminLogin from "./admin-login";
 import AdminDashboard from "./admin-dashboard";
 import AdminMessages from "./admin-message";
 
-export default function AdminPanel({ data, setData }) {
+export default function AdminPanel({ data, setData, setPage }) {
 	const [authed, setAuthed] = useState(false);
 	const [tab, setTab] = useState("dashboard");
-	if (!authed) return <AdminLogin onAuth={() => setAuthed(true)} />;
+	if (!authed)
+		return <AdminLogin onAuth={() => setAuthed(true)} setPage={setPage} />;
 
 	const tabs = [
 		{ key: "dashboard", label: "📊 Dashboard" },
@@ -21,36 +22,35 @@ export default function AdminPanel({ data, setData }) {
 	];
 
 	return (
-		<div className="min-h-screen pt-24 pb-16 px-6 max-w-5xl mx-auto">
-			<div className="flex items-center justify-between mb-9">
+		<div
+			className="min-h-screen
+      pt-20 sm:pt-22 md:pt-24
+      pb-12 sm:pb-14 md:pb-16
+      px-3 sm:px-4 md:px-6
+      max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl
+      mx-auto"
+		>
+			{/* Header — stacks on mobile */}
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8 md:mb-9">
 				<div>
-					<h2 className="font-syne font-extrabold text-white text-3xl">
+					<h2 className="font-syne font-extrabold text-white text-2xl sm:text-3xl">
 						Admin Panel
 					</h2>
 					<p className="font-mono text-xs text-purple-400 mt-1 tracking-wider">
 						Manage your portfolio content
 					</p>
 				</div>
-				<div className="flex gap-3">
+				<div className="flex gap-2 sm:gap-3">
 					<button
-						onClick={() => {
-							const container = document.querySelector(
-								".smooth-horizontal-scroll",
-							);
-							if (container)
-								container.scrollTo({
-									left: 0,
-									behavior: "smooth",
-								});
-						}}
-						className="btn-ghost font-mono text-xs rounded-lg px-4 py-2"
+						onClick={() => setPage("home")}
+						className="btn-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-2"
 						style={{ cursor: "pointer" }}
 					>
 						← Portfolio
 					</button>
 					<button
 						onClick={() => setAuthed(false)}
-						className="btn-logout font-mono text-xs rounded-lg px-4 py-2"
+						className="btn-logout font-mono text-xs rounded-lg px-3 sm:px-4 py-2"
 						style={{ cursor: "pointer" }}
 					>
 						Logout
@@ -58,18 +58,21 @@ export default function AdminPanel({ data, setData }) {
 				</div>
 			</div>
 
+			{/* Tab bar — scrollable on mobile */}
 			<div
-				className="flex flex-wrap gap-1 p-1 rounded-xl mb-7 border"
+				className="flex gap-1 p-1 rounded-xl mb-5 sm:mb-6 md:mb-7 border overflow-x-auto"
 				style={{
 					background: "rgba(10,8,25,.4)",
 					borderColor: "rgba(139,92,246,.12)",
+					scrollbarWidth: "none",
 				}}
 			>
 				{tabs.map((t) => (
 					<button
 						key={t.key}
 						onClick={() => setTab(t.key)}
-						className={`font-mono text-xs px-5 py-2 rounded-lg transition-all duration-200 ${tab === t.key ? "admin-tab-active" : "admin-tab"}`}
+						className={`font-mono text-xs px-3 sm:px-4 md:px-5 py-2 rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0
+              ${tab === t.key ? "admin-tab-active" : "admin-tab"}`}
 						style={{ cursor: "pointer", border: "none" }}
 					>
 						{t.label}

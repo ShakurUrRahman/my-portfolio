@@ -54,10 +54,10 @@ export default function AdminProjects({ data, setData }) {
 
 	return (
 		<div>
-			<div className="flex justify-end mb-5">
+			<div className="flex justify-end mb-4 sm:mb-5">
 				<button
 					onClick={openNew}
-					className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl px-5 py-2"
+					className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl px-4 sm:px-5 py-2"
 					style={{ cursor: "pointer", border: "none" }}
 				>
 					+ New Project
@@ -65,11 +65,12 @@ export default function AdminProjects({ data, setData }) {
 			</div>
 
 			{showForm && (
-				<Glass className="p-8 mb-6">
-					<h3 className="font-syne font-bold text-white text-lg mb-6">
+				<Glass className="p-5 sm:p-6 md:p-8 mb-5 sm:mb-6">
+					<h3 className="font-syne font-bold text-white text-base sm:text-lg mb-4 sm:mb-6">
 						{editing ? "Edit Project" : "New Project"}
 					</h3>
-					<div className="grid grid-cols-2 gap-4 mb-4">
+					{/* 1-col on mobile, 2-col on sm+ */}
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
 						<AdminField
 							label="Title"
 							value={form.title}
@@ -93,8 +94,8 @@ export default function AdminProjects({ data, setData }) {
 							onChange={(v) => setForm({ ...form, live: v })}
 						/>
 					</div>
-					<div className="mb-4">
-						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
+					<div className="mb-3 sm:mb-4">
+						<label className="block font-mono text-xs uppercase tracking-widest mb-1.5 sm:mb-2 text-purple-400">
 							Description
 						</label>
 						<textarea
@@ -109,11 +110,11 @@ export default function AdminProjects({ data, setData }) {
 							className="field-input resize-y"
 						/>
 					</div>
-					<div className="mb-6">
-						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
+					<div className="mb-4 sm:mb-6">
+						<label className="block font-mono text-xs uppercase tracking-widest mb-1.5 sm:mb-2 text-purple-400">
 							Tags
 						</label>
-						<div className="flex flex-wrap gap-2 mb-3">
+						<div className="flex flex-wrap gap-2 mb-2 sm:mb-3">
 							{form.tags.map((tag, i) => (
 								<span
 									key={i}
@@ -141,7 +142,7 @@ export default function AdminProjects({ data, setData }) {
 								</span>
 							))}
 						</div>
-						<div className="flex gap-3">
+						<div className="flex gap-2 sm:gap-3">
 							<input
 								value={tagInput}
 								onChange={(e) => setTagInput(e.target.value)}
@@ -161,24 +162,27 @@ export default function AdminProjects({ data, setData }) {
 										setTagInput("");
 									}
 								}}
-								className="btn-ghost font-mono text-xs rounded-lg px-4 py-2"
-								style={{ cursor: "pointer" }}
+								className="btn-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-2"
+								style={{
+									cursor: "pointer",
+									whiteSpace: "nowrap",
+								}}
 							>
 								+ Add
 							</button>
 						</div>
 					</div>
-					<div className="flex gap-3">
+					<div className="flex flex-wrap gap-2 sm:gap-3">
 						<button
 							onClick={save}
-							className="btn-primary font-mono text-xs text-white rounded-lg px-6 py-2"
+							className="btn-primary font-mono text-xs text-white rounded-lg px-5 sm:px-6 py-2"
 							style={{ cursor: "pointer", border: "none" }}
 						>
 							Save ✓
 						</button>
 						<button
 							onClick={() => setShowForm(false)}
-							className="btn-muted font-mono text-xs rounded-lg px-6 py-2"
+							className="btn-muted font-mono text-xs rounded-lg px-5 sm:px-6 py-2"
 							style={{ cursor: "pointer", border: "none" }}
 						>
 							Cancel
@@ -187,52 +191,58 @@ export default function AdminProjects({ data, setData }) {
 				</Glass>
 			)}
 
-			<div className="flex flex-col gap-3">
+			<div className="flex flex-col gap-2 sm:gap-3">
 				{data.projects.map((p) => (
 					<Glass
 						key={p.id}
-						className="px-6 py-4 flex items-center gap-4"
+						className="px-4 sm:px-5 md:px-6 py-3 sm:py-4"
 					>
-						<div className="flex-1">
-							<div
-								className="font-syne font-semibold text-base"
-								style={{
-									color: p.visible
-										? "#fff"
-										: "rgba(200,190,240,.4)",
-								}}
-							>
-								{p.title}
+						{/* Stack on mobile, row on sm+ */}
+						<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+							<div className="flex-1 min-w-0">
+								<div
+									className="font-syne font-semibold text-sm sm:text-base truncate"
+									style={{
+										color: p.visible
+											? "#fff"
+											: "rgba(200,190,240,.4)",
+									}}
+								>
+									{p.title}
+								</div>
+								<div
+									className="font-mono text-xs mt-0.5 sm:mt-1 truncate"
+									style={{ color: "rgba(200,190,240,.4)" }}
+								>
+									{p.tags.join(", ")}
+								</div>
 							</div>
-							<div
-								className="font-mono text-xs mt-1"
-								style={{ color: "rgba(200,190,240,.4)" }}
-							>
-								{p.tags.join(", ")}
+							<div className="flex flex-wrap gap-2">
+								<button
+									onClick={() => toggle(p.id)}
+									className={`font-mono text-xs rounded-lg px-3 py-1 ${p.visible ? "btn-success" : "btn-muted"}`}
+									style={{ cursor: "pointer" }}
+								>
+									{p.visible ? "Visible" : "Hidden"}
+								</button>
+								<button
+									onClick={() => openEdit(p)}
+									className="btn-ghost font-mono text-xs rounded-lg px-3 py-1"
+									style={{ cursor: "pointer" }}
+								>
+									Edit
+								</button>
+								<button
+									onClick={() => del(p.id)}
+									className="btn-danger font-mono text-xs rounded-lg px-3 py-1"
+									style={{
+										cursor: "pointer",
+										border: "none",
+									}}
+								>
+									Delete
+								</button>
 							</div>
-						</div>
-						<div className="flex gap-2">
-							<button
-								onClick={() => toggle(p.id)}
-								className={`font-mono text-xs rounded-lg px-4 py-1 ${p.visible ? "btn-success" : "btn-muted"}`}
-								style={{ cursor: "pointer", minWidth: 76 }}
-							>
-								{p.visible ? "Visible" : "Hidden"}
-							</button>
-							<button
-								onClick={() => openEdit(p)}
-								className="btn-ghost font-mono text-xs rounded-lg px-4 py-1"
-								style={{ cursor: "pointer" }}
-							>
-								Edit
-							</button>
-							<button
-								onClick={() => del(p.id)}
-								className="btn-danger font-mono text-xs rounded-lg px-4 py-1"
-								style={{ cursor: "pointer", border: "none" }}
-							>
-								Delete
-							</button>
 						</div>
 					</Glass>
 				))}
