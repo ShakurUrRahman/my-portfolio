@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Glass, SectionTitle } from ".";
 
-export default function ContactSection({ onNewMessage }) {
+export default function ContactSection({
+	onNewMessage,
+	onFieldFocus,
+	onFieldBlur,
+}) {
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
 	const [sent, setSent] = useState(false);
 
@@ -91,10 +95,10 @@ export default function ContactSection({ onNewMessage }) {
 											[key]: e.target.value,
 										})
 									}
+									onFocus={onFieldFocus}
+									onBlur={onFieldBlur}
 									placeholder={ph}
 									className="field-input"
-									onFocus={handleFocus}
-									onBlur={handleBlur}
 								/>
 							</div>
 						))}
@@ -110,11 +114,11 @@ export default function ContactSection({ onNewMessage }) {
 										message: e.target.value,
 									})
 								}
+								onFocus={onFieldFocus}
+								onBlur={onFieldBlur}
 								placeholder="Tell me about your project…"
 								rows={4}
 								className="field-input resize-y"
-								onFocus={handleFocus}
-								onBlur={handleBlur}
 							/>
 						</div>
 						<button

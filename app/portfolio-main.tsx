@@ -22,6 +22,19 @@ export default function PortfolioApp() {
 	const [adminOpen, setAdminOpen] = useState(false);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const scrollContainerRef = useRef(null);
+
+	const lockScroll = () => {
+		if (scrollContainerRef.current) {
+			scrollContainerRef.current.style.overflowX = "hidden";
+		}
+	};
+
+	const unlockScroll = () => {
+		if (scrollContainerRef.current) {
+			scrollContainerRef.current.style.overflowX = "auto";
+		}
+	};
 
 	const handleLogoClick = () => {
 		logoClicks.current += 1;
@@ -157,7 +170,11 @@ export default function PortfolioApp() {
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<ContactSection onNewMessage={onNewMessage} />
+						<ContactSection
+							onNewMessage={onNewMessage}
+							onFieldFocus={lockScroll}
+							onFieldBlur={unlockScroll}
+						/>
 					</section>
 					{adminOpen && (
 						<div
