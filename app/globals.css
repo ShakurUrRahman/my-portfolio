@@ -382,3 +382,10 @@ button:focus {
 		cursor: auto;
 	}
 }
+
+@media (max-width: 768px) {
+	input,
+	textarea {
+		font-size: 16px !important;
+	}
+}
