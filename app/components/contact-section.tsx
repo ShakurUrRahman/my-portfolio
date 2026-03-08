@@ -9,14 +9,6 @@ export default function ContactSection({
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
 	const [sent, setSent] = useState(false);
 
-	const handleFocus = () => {
-		document.body.style.overflowX = "hidden";
-	};
-
-	const handleBlur = () => {
-		document.body.style.overflowX = "";
-	};
-
 	const submit = (e) => {
 		e.preventDefault();
 		if (!form.name || !form.email || !form.message) return;

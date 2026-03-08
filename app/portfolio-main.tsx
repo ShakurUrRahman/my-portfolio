@@ -22,7 +22,6 @@ export default function PortfolioApp() {
 	const [adminOpen, setAdminOpen] = useState(false);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const scrollContainerRef = useRef(null);
 
 	const lockScroll = () => {
 		if (scrollContainerRef.current) {
