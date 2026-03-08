@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────
+   BASE RESET
+───────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -11,17 +14,24 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
 html {
 	scroll-behavior: smooth;
 	cursor: none;
+	overflow-x: hidden;
+	max-width: 100%;
 }
+
 body {
 	background: #020208;
 	color: #fff;
 	overflow-x: hidden;
+	max-width: 100%;
 }
 
-/* ── Font helpers ── */
+/* ─────────────────────────────────────────────
+   FONTS
+───────────────────────────────────────────── */
 .font-syne {
 	font-family: "Syne", sans-serif;
 }
@@ -29,7 +39,116 @@ body {
 	font-family: "DM Mono", monospace !important;
 }
 
-/* ── Glass surface ── */
+/* ─────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────── */
+::-webkit-scrollbar {
+	width: 4px;
+}
+::-webkit-scrollbar-track {
+	background: rgba(10, 8, 25, 0.5);
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(139, 92, 246, 0.4);
+	border-radius: 2px;
+}
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+.hide-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+/* ─────────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────────── */
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes glowPulse {
+	0%,
+	100% {
+		box-shadow: 0 0 8px #10b981;
+	}
+	50% {
+		box-shadow:
+			0 0 16px #10b981,
+			0 0 24px rgba(16, 185, 129, 0.4);
+	}
+}
+
+@keyframes scrollLine {
+	0% {
+		opacity: 0;
+		transform: scaleX(0);
+		transform-origin: left;
+	}
+	50% {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scaleX(0);
+		transform-origin: right;
+	}
+}
+
+@keyframes scrollHorizontal {
+	0% {
+		opacity: 0;
+		transform: scaleX(0) translateX(-10px);
+		transform-origin: left;
+	}
+	50% {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scaleX(0) translateX(10px);
+		transform-origin: right;
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATION UTILITY CLASSES
+───────────────────────────────────────────── */
+.anim-fade-up {
+	animation: fadeUp 0.6s ease forwards;
+	opacity: 0;
+}
+.anim-glow-pulse {
+	animation: glowPulse 2s infinite;
+}
+.anim-scroll-line {
+	animation: scrollLine 2s ease infinite;
+}
+.anim-scroll-horizontal {
+	animation: scrollHorizontal 2s ease infinite;
+}
+
+/* ─────────────────────────────────────────────
+   GLASS
+───────────────────────────────────────────── */
 .glass {
 	background: rgba(10, 8, 25, 0.55);
 	backdrop-filter: blur(18px);
@@ -51,110 +170,30 @@ body {
 	border-color: rgba(139, 92, 246, 0.45);
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar {
-	width: 4px;
+/* ─────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────── */
+.nav-frosted {
+	background: rgba(5, 4, 14, 0.75);
+	backdrop-filter: blur(20px);
+	border-bottom: 1px solid rgba(139, 92, 246, 0.12);
 }
-::-webkit-scrollbar-track {
-	background: rgba(10, 8, 25, 0.5);
+.nav-link {
+	border-bottom: 1px solid transparent;
+	color: rgba(200, 190, 240, 0.6);
+	transition: color 0.2s;
 }
-::-webkit-scrollbar-thumb {
-	background: rgba(139, 92, 246, 0.4);
-	border-radius: 2px;
+.nav-link:hover {
+	color: rgba(200, 190, 240, 0.9) !important;
 }
-
-/* ── Keyframes ── */
-@keyframes fadeUp {
-	from {
-		opacity: 0;
-		transform: translateY(24px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-@keyframes glowPulse {
-	0%,
-	100% {
-		box-shadow: 0 0 8px #10b981;
-	}
-	50% {
-		box-shadow:
-			0 0 16px #10b981,
-			0 0 24px rgba(16, 185, 129, 0.4);
-	}
-}
-@keyframes scrollLine {
-	0% {
-		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: left;
-	}
-	50% {
-		opacity: 1;
-		transform: scaleX(1);
-	}
-	100% {
-		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: right;
-	}
-}
-@keyframes scrollHorizontal {
-	0% {
-		opacity: 0;
-		transform: scaleX(0) translateX(-10px);
-		transform-origin: left;
-	}
-	50% {
-		opacity: 1;
-		transform: scaleX(1);
-	}
-	100% {
-		opacity: 0;
-		transform: scaleX(0) translateX(10px);
-		transform-origin: right;
-	}
+.nav-link-active {
+	color: rgba(139, 92, 246, 1) !important;
+	border-bottom: 1px solid rgba(139, 92, 246, 0.6);
 }
 
-.anim-fade-up {
-	animation: fadeUp 0.6s ease forwards;
-	opacity: 0;
-}
-.anim-glow-pulse {
-	animation: glowPulse 2s infinite;
-}
-.anim-scroll-line {
-	animation: scrollLine 2s ease infinite;
-}
-.anim-scroll-horizontal {
-	animation: scrollHorizontal 2s ease infinite;
-}
-
-/* ── Hide scrollbar ── */
-.hide-scrollbar::-webkit-scrollbar {
-	display: none;
-}
-.hide-scrollbar {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
-/* ── Skill bar fill ── */
-.skill-fill {
-	height: 100%;
-	border-radius: 2px;
-	background: linear-gradient(
-		90deg,
-		rgba(139, 92, 246, 0.9),
-		rgba(6, 182, 212, 0.9)
-	);
-	box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
-	transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ── Buttons ── */
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
 .btn-primary {
 	background: linear-gradient(
 		135deg,
@@ -202,16 +241,19 @@ body {
 .btn-danger:hover {
 	background: rgba(239, 68, 68, 0.2);
 }
+
 .btn-success {
 	background: rgba(16, 185, 129, 0.15);
 	border: 1px solid rgba(16, 185, 129, 0.3);
 	color: #10b981 !important;
 }
+
 .btn-muted {
 	background: rgba(107, 114, 128, 0.2);
 	border: 1px solid rgba(107, 114, 128, 0.2);
 	color: rgba(200, 190, 240, 0.7);
 }
+
 .btn-logout {
 	background: rgba(239, 68, 68, 0.1);
 	border: 1px solid rgba(239, 68, 68, 0.25);
@@ -222,7 +264,9 @@ body {
 	background: rgba(239, 68, 68, 0.2);
 }
 
-/* ── Inputs ── */
+/* ─────────────────────────────────────────────
+   INPUTS
+───────────────────────────────────────────── */
 .field-input {
 	width: 100%;
 	padding: 10px 14px;
@@ -246,7 +290,24 @@ button:focus {
 	outline: none;
 }
 
-/* ── Tags / badges ── */
+/* ─────────────────────────────────────────────
+   COMPONENTS
+───────────────────────────────────────────── */
+
+/* Skill bar */
+.skill-fill {
+	height: 100%;
+	border-radius: 2px;
+	background: linear-gradient(
+		90deg,
+		rgba(139, 92, 246, 0.9),
+		rgba(6, 182, 212, 0.9)
+	);
+	box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+	transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tag badge */
 .tag-badge {
 	background: rgba(139, 92, 246, 0.12);
 	border: 1px solid rgba(139, 92, 246, 0.25);
@@ -258,26 +319,13 @@ button:focus {
 	color: rgba(139, 92, 246, 0.9);
 }
 
-/* ── Nav ── */
-.nav-frosted {
-	background: rgba(5, 4, 14, 0.75);
-	backdrop-filter: blur(20px);
-	border-bottom: 1px solid rgba(139, 92, 246, 0.12);
-}
-.nav-link {
-	border-bottom: 1px solid transparent;
-	color: rgba(200, 190, 240, 0.6);
-	transition: color 0.2s;
-}
-.nav-link:hover {
-	color: rgba(200, 190, 240, 0.9) !important;
-}
-.nav-link-active {
-	color: rgba(139, 92, 246, 1) !important;
-	border-bottom: 1px solid rgba(139, 92, 246, 0.6);
+/* Available badge */
+.avail-badge {
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
-/* ── Project links ── */
+/* Project links */
 .proj-ghost {
 	border: 1px solid rgba(139, 92, 246, 0.3);
 	color: rgba(139, 92, 246, 0.8);
@@ -287,6 +335,7 @@ button:focus {
 	opacity: 0.8;
 	transform: translateY(-1px);
 }
+
 .proj-filled {
 	background: linear-gradient(
 		135deg,
@@ -301,7 +350,7 @@ button:focus {
 	transform: translateY(-1px);
 }
 
-/* ── Social links ── */
+/* Social links */
 .social-link {
 	border: 1px solid rgba(139, 92, 246, 0.25);
 	transition: all 0.2s;
@@ -311,7 +360,7 @@ button:focus {
 	border-color: rgba(139, 92, 246, 0.5);
 }
 
-/* ── Toggle ── */
+/* Toggle */
 .toggle-on {
 	background: rgba(16, 185, 129, 0.6);
 }
@@ -319,7 +368,7 @@ button:focus {
 	background: rgba(107, 114, 128, 0.3);
 }
 
-/* ── Admin tab ── */
+/* Admin tabs */
 .admin-tab-active {
 	background: linear-gradient(
 		135deg,
@@ -336,13 +385,15 @@ button:focus {
 	color: rgba(200, 190, 240, 0.85);
 }
 
-/* ── Available badge ── */
-.avail-badge {
-	background: rgba(16, 185, 129, 0.1);
-	border: 1px solid rgba(16, 185, 129, 0.25);
+/* Smooth horizontal scroll */
+.smooth-horizontal-scroll {
+	scroll-behavior: smooth;
+	transition: scroll-left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ── Custom cursor ── */
+/* ─────────────────────────────────────────────
+   CUSTOM CURSOR
+───────────────────────────────────────────── */
 .cursor-dot {
 	position: fixed;
 	width: 8px;
@@ -367,30 +418,25 @@ button:focus {
 	left: 0;
 }
 
-.smooth-horizontal-scroll {
-	scroll-behavior: smooth;
-	transition: scroll-left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+/* ─────────────────────────────────────────────
+   RESPONSIVE / MEDIA QUERIES
+───────────────────────────────────────────── */
 
+/* Hide cursor on touch devices */
 @media (pointer: coarse) {
 	.cursor-dot,
 	.cursor-ring {
 		display: none;
 	}
-
 	html {
 		cursor: auto;
 	}
 }
+
+/* Prevent iOS/Android input zoom */
 @media (max-width: 768px) {
 	input,
 	textarea {
 		font-size: 16px !important;
 	}
-}
-
-html,
-body {
-	overflow-x: hidden;
-	max-width: 100%;
 }

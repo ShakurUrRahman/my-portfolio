@@ -9,11 +9,13 @@ export default function ContactSection({
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
 	const [sent, setSent] = useState(false);
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const submit = async (e) => {
 		e.preventDefault();
 		if (!form.name || !form.email || !form.message) return;
 		setError("");
+		setLoading(true); // ← add
 
 		try {
 			const res = await fetch("/api/contact", {
@@ -39,6 +41,8 @@ export default function ContactSection({
 			setForm({ name: "", email: "", message: "" });
 		} catch (err) {
 			setError("Something went wrong. Please try again.");
+		} finally {
+			setLoading(false); // ← add
 		}
 	};
 
@@ -136,10 +140,45 @@ export default function ContactSection({
 						</div>
 						<button
 							type="submit"
-							className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl py-3 sm:py-4 mt-1"
-							style={{ cursor: "pointer", border: "none" }}
+							disabled={loading}
+							className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl py-3 sm:py-4 mt-1 flex items-center justify-center gap-2"
+							style={{
+								cursor: loading ? "not-allowed" : "pointer",
+								border: "none",
+								opacity: loading ? 0.7 : 1,
+							}}
 						>
-							Send Message →
+							{loading ? (
+								<>
+									{/* Spinner */}
+									<svg
+										width="14"
+										height="14"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										style={{
+											animation:
+												"spin 1s linear infinite",
+										}}
+									>
+										<circle
+											cx="12"
+											cy="12"
+											r="10"
+											strokeOpacity="0.25"
+										/>
+										<path
+											d="M12 2a10 10 0 0 1 10 10"
+											strokeLinecap="round"
+										/>
+									</svg>
+									Sending...
+								</>
+							) : (
+								<>Send Message →</>
+							)}
 						</button>
 						{error && (
 							<p className="font-mono text-xs text-red-400 text-center mt-2">
