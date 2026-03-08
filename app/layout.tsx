@@ -1,19 +1,25 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Alex Rivera - Web Developer',
-  description: 'Portfolio of Alex Rivera, Junior Web Developer',
-}
+	title: "Shakurur Rahman - Web Developer",
+	description: "Portfolio of Shakurur Rahman, Junior Web Developer",
+};
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  )
+	return (
+		<html lang="en">
+			<head>
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-visual"
+				/>
+			</head>
+			<body>{children}</body>
+		</html>
+	);
 }

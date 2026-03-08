@@ -5,6 +5,14 @@ export default function ContactSection({ onNewMessage }) {
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
 	const [sent, setSent] = useState(false);
 
+	const handleFocus = () => {
+		document.body.style.overflowX = "hidden";
+	};
+
+	const handleBlur = () => {
+		document.body.style.overflowX = "";
+	};
+
 	const submit = (e) => {
 		e.preventDefault();
 		if (!form.name || !form.email || !form.message) return;
@@ -85,6 +93,8 @@ export default function ContactSection({ onNewMessage }) {
 									}
 									placeholder={ph}
 									className="field-input"
+									onFocus={handleFocus}
+									onBlur={handleBlur}
 								/>
 							</div>
 						))}
@@ -103,6 +113,8 @@ export default function ContactSection({ onNewMessage }) {
 								placeholder="Tell me about your project…"
 								rows={4}
 								className="field-input resize-y"
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 							/>
 						</div>
 						<button
