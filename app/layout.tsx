@@ -4,8 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
 	title: "Shakurur Rahman - Web Developer",
 	description: "Portfolio of Shakurur Rahman, Junior Web Developer",
+	icons: {
+		icon: "/favicon.png",
+	},
 };
-
 export default function RootLayout({
 	children,
 }: {

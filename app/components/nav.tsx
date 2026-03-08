@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Nav({ page, available, scrollToSection, onLogoClick }) {
@@ -79,6 +80,15 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 							{l}
 						</button>
 					))}
+					{/* Resume link */}
+					<Link
+						href="/resume.pdf"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="btn-ghost font-mono text-xs uppercase tracking-wider rounded-lg px-3 lg:px-4 py-1 no-underline"
+					>
+						Resume ↗
+					</Link>
 				</div>
 
 				{/* Hamburger */}
@@ -90,15 +100,13 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 						border: "none",
 						cursor: "pointer",
 					}}
-					aria-label="Toggle menu"
 				>
 					<span
-						className="block w-5 h-px transition-all duration-300"
+						className="block h-px transition-all duration-300"
 						style={{
 							background: "rgba(139,92,246,.9)",
-							transform: menuOpen
-								? "rotate(45deg) translate(3px,3px)"
-								: "none",
+							width: menuOpen ? "0" : "20px",
+							opacity: menuOpen ? 0 : 1,
 						}}
 					/>
 					<span
@@ -110,12 +118,11 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 						}}
 					/>
 					<span
-						className="block w-5 h-px transition-all duration-300"
+						className="block h-px transition-all duration-300"
 						style={{
 							background: "rgba(139,92,246,.9)",
-							transform: menuOpen
-								? "rotate(-45deg) translate(3px,-3px)"
-								: "none",
+							width: menuOpen ? "0" : "20px",
+							opacity: menuOpen ? 0 : 1,
 						}}
 					/>
 				</button>
@@ -225,8 +232,27 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 								{l}
 							</button>
 						))}
-
-						{/* Admin button */}
+						<Link
+							href="/resume.pdf"
+							target="_blank"
+							rel="noopener noreferrer"
+							onClick={closeDrawer}
+							style={{
+								fontFamily: "'DM Mono',monospace",
+								fontSize: 15,
+								textTransform: "uppercase",
+								letterSpacing: "0.1em",
+								padding: "16px 0",
+								textAlign: "left",
+								borderBottom: "1px solid rgba(139,92,246,.12)",
+								width: "100%",
+								color: "rgba(6,182,212,0.9)",
+								textDecoration: "none",
+								display: "block",
+							}}
+						>
+							Resume ↗
+						</Link>
 					</div>
 				</>
 			)}

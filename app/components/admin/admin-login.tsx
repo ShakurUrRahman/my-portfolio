@@ -1,12 +1,29 @@
 import { useState } from "react";
 import { Glass } from "..";
 
-export default function AdminLogin({ onAuth, setPage, onClose }) {
-	const [pw, setPw] = useState(""),
-		[err, setErr] = useState(false);
-	const attempt = () => {
-		pw === "admin123" ? (setErr(false), onAuth()) : setErr(true);
+export default function AdminLogin({ onAuth, onClose }) {
+	const [pw, setPw] = useState("");
+	const [err, setErr] = useState(false);
+	const [loading, setLoading] = useState(false);
+
+	const attempt = async () => {
+		if (!pw.trim()) return;
+		setLoading(true);
+		const res = await fetch("/api/auth", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ password: pw }),
+		});
+		setLoading(false);
+		if (res.ok) {
+			setErr(false);
+			onAuth();
+		} else {
+			setErr(true);
+			setPw("");
+		}
 	};
+
 	return (
 		<div className="min-h-screen flex items-center justify-center px-4 sm:px-8 relative">
 			<button
@@ -19,15 +36,9 @@ export default function AdminLogin({ onAuth, setPage, onClose }) {
 
 			<Glass className="p-8 sm:p-10 md:p-12 w-full max-w-xs sm:max-w-sm text-center">
 				<div className="text-4xl sm:text-5xl mb-4 sm:mb-5">🔐</div>
-				<h2 className="font-syne font-bold text-white text-xl sm:text-2xl mb-2">
+				<h2 className="font-syne font-bold text-white text-xl sm:text-2xl mb-6">
 					Admin Access
 				</h2>
-				<p
-					className="font-mono text-xs mb-6 sm:mb-8"
-					style={{ color: "rgba(200,190,240,.5)" }}
-				>
-					Password: admin123
-				</p>
 				<input
 					type="password"
 					value={pw}
@@ -46,13 +57,18 @@ export default function AdminLogin({ onAuth, setPage, onClose }) {
 				)}
 				<button
 					onClick={attempt}
+					disabled={loading}
 					className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl py-3 w-full mb-3 sm:mb-4"
-					style={{ cursor: "pointer", border: "none" }}
+					style={{
+						cursor: "pointer",
+						border: "none",
+						opacity: loading ? 0.6 : 1,
+					}}
 				>
-					Login →
+					{loading ? "Checking..." : "Login →"}
 				</button>
 				<button
-					onClick={() => setPage("home")}
+					onClick={onClose}
 					className="font-mono text-xs"
 					style={{
 						background: "none",

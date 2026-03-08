@@ -8,17 +8,38 @@ export default function ContactSection({
 }) {
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
 	const [sent, setSent] = useState(false);
+	const [error, setError] = useState("");
 
-	const submit = (e) => {
+	const submit = async (e) => {
 		e.preventDefault();
 		if (!form.name || !form.email || !form.message) return;
-		onNewMessage({
-			...form,
-			id: Date.now(),
-			date: new Date().toISOString().slice(0, 10),
-		});
-		setSent(true);
-		setForm({ name: "", email: "", message: "" });
+		setError("");
+
+		try {
+			const res = await fetch("/api/contact", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(form),
+			});
+
+			const data = await res.json();
+
+			if (!res.ok) {
+				setError(data.error || "Failed to send.");
+				return;
+			}
+
+			onNewMessage({
+				...form,
+				id: Date.now(),
+				date: new Date().toISOString().slice(0, 10),
+			});
+
+			setSent(true);
+			setForm({ name: "", email: "", message: "" });
+		} catch (err) {
+			setError("Something went wrong. Please try again.");
+		}
 	};
 
 	return (
@@ -120,6 +141,11 @@ export default function ContactSection({
 						>
 							Send Message →
 						</button>
+						{error && (
+							<p className="font-mono text-xs text-red-400 text-center mt-2">
+								{error}
+							</p>
+						)}
 					</form>
 				)}
 			</Glass>
