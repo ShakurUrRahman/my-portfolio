@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Glass, SectionTitle } from ".";
 
 const GRADIENTS = [
@@ -72,20 +73,24 @@ export default function ProjectsSection({ data }) {
 						{/* Links */}
 						<div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-2">
 							{p.github && (
-								<a
+								<Link
 									href={p.github}
+									target="_blank"
+									rel="noopener noreferrer"
 									className="proj-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
 								>
 									⌥ GitHub
-								</a>
+								</Link>
 							)}
 							{p.live && (
-								<a
+								<Link
 									href={p.live}
+									target="_blank"
+									rel="noopener noreferrer"
 									className="proj-filled font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
 								>
 									↗ Live
-								</a>
+								</Link>
 							)}
 						</div>
 					</Glass>
