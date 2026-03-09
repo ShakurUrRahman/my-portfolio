@@ -80,31 +80,19 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 			</div>
 
 			{/* Scroll hint — hidden on very small screens */}
-			<div
-				className="flex mt-16 flex-row items-center gap-2 anim-fade-up"
-				style={{ animationDelay: "1.8s", zIndex: 10 }}
-			>
-				<div
-					className="h-px w-10 sm:w-12 anim-scroll-line"
-					style={{
-						background:
-							"linear-gradient(to right, transparent, rgba(139,92,246,.6))",
-					}}
-				/>
-				<span
-					className="font-mono text-xs tracking-widest uppercase"
-					style={{ color: "rgba(139,92,246,.4)" }}
-				>
-					Scroll
-				</span>
-				<div
-					className="h-px w-10 sm:w-12 anim-scroll-line"
-					style={{
-						background:
-							"linear-gradient(to right, rgba(139,92,246,.6), transparent)",
-						animationDelay: "0.3s",
-					}}
-				/>
+			<div className="flex items-center gap-4 mt-16">
+				{/* Left Line */}
+				<div className="h-[1.5px] w-0 bg-gradient-to-r from-transparent to-purple-500/60 animate-[line-expand_0.8s_ease-out_2s_forwards]"></div>
+
+				{/* Animated Mouse (Horizontal) */}
+				<div className="w-11 h-7 border-2 border-purple-500/40 rounded-[14px] relative animate-[fade-in_0.8s_ease-out_1.6s_backwards]">
+					<div className="w-2 h-[3px] bg-purple-500/60 rounded-sm absolute left-2 top-1/2 -translate-y-1/2 animate-[scroll-wheel-horizontal_2s_ease-in-out_infinite_2.2s]"></div>
+				</div>
+
+				{/* Right Line */}
+				<div className="h-[1.5px] w-0 bg-gradient-to-r from-purple-500/60 to-transparent animate-[line-expand_0.8s_ease-out_2.1s_forwards]"></div>
+
+				{/* Animated Chevron (Pointing Right) */}
 			</div>
 		</div>
 	);
