@@ -81,7 +81,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 
 			{/* Scroll hint — hidden on very small screens */}
 			<div
-				className="hidden sm:flex mt-16 flex-row items-center gap-2 anim-fade-up"
+				className="flex mt-16 flex-row items-center gap-2 anim-fade-up"
 				style={{ animationDelay: "1.8s", zIndex: 10 }}
 			>
 				<div
