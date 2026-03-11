@@ -1,5 +1,5 @@
-import Portfolio from './portfolio-main'
+import Portfolio from "./portfolio-main";
 
 export default function Page() {
-  return <Portfolio />
+	return <Portfolio />;
 }

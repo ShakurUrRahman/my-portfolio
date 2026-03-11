@@ -1,93 +1,121 @@
 {
-  "about": {
-    "name": "SHAKUR",
-    "role": "Junior Web Developer",
-    "bio": "I craft clean, purposeful digital experiences. Passionate about turning complex problems into elegant interfaces. Currently open to new opportunities.",
-    "available": true,
-    "avatar": null,
-    "skills": [
-      {
-        "name": "React / Next.js",
-        "level": 85
-      },
-      {
-        "name": "TypeScript",
-        "level": 72
-      },
-      {
-        "name": "Tailwind CSS",
-        "level": 90
-      },
-      {
-        "name": "Node.js",
-        "level": 65
-      },
-      {
-        "name": "Three.js",
-        "level": 50
-      },
-      {
-        "name": "PostgreSQL",
-        "level": 60
-      }
-    ],
-    "socials": {
-      "github": "#",
-      "linkedin": "#",
-      "twitter": "#"
-    }
-  },
-  "projects": [
-    {
-      "id": 1,
-      "title": "Orbit — Task Manager",
-      "description": "A drag-and-drop task manager with real-time sync, built with React DnD and Supabase.",
-      "image": null,
-      "tags": [
-        "React",
-        "Supabase",
-        "Tailwind"
-      ],
-      "github": "#",
-      "live": "#",
-      "visible": true
-    },
-    {
-      "id": 2,
-      "title": "Lumina — E-Commerce",
-      "description": "Minimalist storefront with Stripe checkout, product filtering, and an admin dashboard.",
-      "image": null,
-      "tags": [
-        "Next.js",
-        "Stripe",
-        "PostgreSQL"
-      ],
-      "github": "#",
-      "live": "#",
-      "visible": true
-    },
-    {
-      "id": 3,
-      "title": "Pulse — Analytics",
-      "description": "Real-time web analytics dashboard with custom chart components and CSV export.",
-      "image": null,
-      "tags": [
-        "TypeScript",
-        "Chart.js",
-        "Express"
-      ],
-      "github": "#",
-      "live": "#",
-      "visible": true
-    }
-  ],
-  "messages": [
-    {
-      "id": 1,
-      "name": "Sarah Chen",
-      "email": "sarah@example.com",
-      "message": "Love your work! Would you be interested in a freelance project?",
-      "date": "2025-02-14"
-    }
-  ]
+	"about": {
+		"name": "SHAKUR",
+		"role": "Junior Web Developer",
+		"bio": "I craft clean, purposeful digital experiences. Passionate about turning complex problems into elegant interfaces. Currently open to new opportunities.",
+		"available": true,
+		"avatar": null,
+		"skills": [
+			{ "name": "React / Next.js", "level": 85 },
+			{ "name": "TypeScript", "level": 72 },
+			{ "name": "Tailwind CSS", "level": 90 },
+			{ "name": "Node.js", "level": 65 },
+			{ "name": "Three.js", "level": 50 },
+			{ "name": "PostgreSQL", "level": 60 }
+		],
+		"socials": {
+			"github": "#",
+			"linkedin": "#",
+			"twitter": "#"
+		}
+	},
+	"projects": [
+		{
+			"id": 1,
+			"title": "Orbit — Task Manager",
+			"description": "A drag-and-drop task manager with real-time sync, built with React DnD and Supabase.",
+			"image": null,
+			"images": [null, null, null],
+			"tags": ["React", "Supabase", "Tailwind"],
+			"github": "#",
+			"live": "#",
+			"visible": true,
+			"role": "Full Stack Developer",
+			"duration": "2 months",
+			"year": "2024",
+			"status": "Completed",
+			"overview": "Orbit is a modern task management application that lets teams collaborate in real-time. Built with a focus on smooth drag-and-drop interactions and instant data synchronization across all connected clients.",
+			"howItWorks": [
+				"User creates a board and invites team members via email link",
+				"Tasks are created as cards and organized into customizable columns",
+				"Drag-and-drop powered by React DnD moves cards between columns with live sync",
+				"Supabase Realtime broadcasts changes instantly to all connected users",
+				"Notifications are sent via webhook when tasks are assigned or completed"
+			],
+			"features": [
+				"Real-time drag-and-drop across all clients",
+				"Custom column creation and ordering",
+				"Task priority levels and due date tracking",
+				"Team member assignment and notifications",
+				"Activity feed and audit log"
+			],
+			"challenges": "The trickiest part was reconciling optimistic UI updates with real-time sync conflicts when multiple users moved the same card simultaneously. Solved using a timestamp-based conflict resolution strategy.",
+			"learnings": "Deepened my understanding of real-time architecture, optimistic UI patterns, and how to design database schemas that support collaborative workflows without race conditions."
+		},
+		{
+			"id": 2,
+			"title": "Lumina — E-Commerce",
+			"description": "Minimalist storefront with Stripe checkout, product filtering, and an admin dashboard.",
+			"image": null,
+			"images": [null, null, null],
+			"tags": ["Next.js", "Stripe", "PostgreSQL"],
+			"github": "#",
+			"live": "#",
+			"visible": true,
+			"role": "Full Stack Developer",
+			"duration": "3 months",
+			"year": "2024",
+			"status": "Completed",
+			"overview": "Lumina is a full-featured e-commerce platform built for a boutique fashion brand. It features a clean, minimal storefront with advanced product filtering, a secure Stripe checkout flow, and a comprehensive admin dashboard for inventory management.",
+			"howItWorks": [
+				"Products are stored in PostgreSQL and served via Next.js API routes with ISR caching",
+				"Advanced filtering uses URL query params so results are shareable and SEO-friendly",
+				"Cart state is persisted in localStorage with a Zustand store for cross-tab sync",
+				"Stripe Checkout handles payment with webhook confirmation before order creation",
+				"Admin dashboard provides real-time inventory updates and order management"
+			],
+			"features": [
+				"ISR-powered product pages for fast load times",
+				"Multi-filter with URL state persistence",
+				"Stripe payment with webhook order confirmation",
+				"Admin inventory and order management",
+				"Automated email receipts via Resend"
+			],
+			"challenges": "Handling Stripe webhook reliability in production required implementing idempotency keys and a retry queue to ensure no orders were missed during payment confirmation.",
+			"learnings": "Gained deep experience with payment systems, ISR caching strategies, and how to architect e-commerce data models that scale cleanly from MVP to production."
+		},
+		{
+			"id": 3,
+			"title": "Pulse — Analytics",
+			"description": "Real-time web analytics dashboard with custom chart components and CSV export.",
+			"image": null,
+			"images": [null, null, null],
+			"tags": ["TypeScript", "Chart.js", "Express"],
+			"github": "#",
+			"live": "#",
+			"visible": true,
+			"role": "Frontend Developer",
+			"duration": "6 weeks",
+			"year": "2025",
+			"status": "In Progress",
+			"overview": "Pulse is a lightweight analytics dashboard that gives website owners a privacy-first alternative to Google Analytics. It tracks page views, sessions, and custom events without cookies, displaying everything in a clean real-time dashboard.",
+			"howItWorks": [
+				"A tiny (< 2kb) script is embedded on the tracked website to capture events",
+				"Events are sent to an Express API endpoint and stored in a time-series PostgreSQL table",
+				"Dashboard polls the API every 30 seconds and updates charts without full page reload",
+				"Chart.js renders custom-styled line, bar, and doughnut charts with animated transitions",
+				"CSV export queries aggregate data and streams it directly to the browser as a download"
+			],
+			"features": [
+				"Cookie-free, privacy-first tracking",
+				"Real-time visitor count and session data",
+				"Custom event tracking with properties",
+				"Animated Chart.js visualizations",
+				"One-click CSV export for any date range"
+			],
+			"challenges": "Building a tracking script under 2kb while still capturing enough meaningful data required aggressive tree-shaking and creative use of the Beacon API for non-blocking event delivery.",
+			"learnings": "Learned a huge amount about browser APIs, time-series data modelling, and how to build performant dashboards that feel fast even when rendering large datasets."
+		}
+	],
+	"messages": []
 }

@@ -3,52 +3,23 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import SpaceBackground from "./components/space-background";
 import Cursor from "./components/cursor";
-import SkillBar from "./components/skill-bar";
-import HorizontalNav from "./components/nav";
-import { AnimatedTitle, Glass, SectionTitle } from "./components";
+import Nav from "./components/nav";
 import HomeSection from "./components/home-section";
 import AboutSection from "./components/about-section";
 import ProjectsSection from "./components/projects-section";
 import ContactSection from "./components/contact-section";
 import AdminPanel from "./components/admin/admin-panel";
-import { initialData } from "@/data/data";
-import Nav from "./components/nav";
 
 export default function PortfolioApp() {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState<any>(null);
 	const [loaded, setLoaded] = useState(false);
-	const [page, setPage] = useState("home");
-	const scrollContainerRef = useRef(null);
+	const [page, setPage] = useState(0);
 	const [adminOpen, setAdminOpen] = useState(false);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const lockScroll = () => {
-		if (scrollContainerRef.current) {
-			scrollContainerRef.current.style.overflowX = "hidden";
-		}
-	};
-
-	const unlockScroll = () => {
-		if (scrollContainerRef.current) {
-			scrollContainerRef.current.style.overflowX = "auto";
-		}
-	};
-
-	const handleLogoClick = () => {
-		logoClicks.current += 1;
-
-		clearTimeout(logoTimer.current!);
-		logoTimer.current = setTimeout(() => {
-			logoClicks.current = 0;
-		}, 2000);
-
-		if (logoClicks.current === 5) {
-			logoClicks.current = 0;
-			setAdminOpen(true);
-		}
-	};
-
+	// ── Fetch data on mount ──
 	useEffect(() => {
 		fetch("/api/data")
 			.then((r) => r.json())
@@ -58,10 +29,9 @@ export default function PortfolioApp() {
 			});
 	}, []);
 
-	// Save to API (and file) whenever data changes
-	// Debounced to avoid too many writes
+	// ── Persist data to API (debounced 800ms) ──
 	useEffect(() => {
-		if (!loaded || !data || !data.about) return; // ← guard
+		if (!loaded || !data?.about) return;
 		const timer = setTimeout(() => {
 			fetch("/api/data", {
 				method: "POST",
@@ -72,8 +42,9 @@ export default function PortfolioApp() {
 		return () => clearTimeout(timer);
 	}, [data, loaded]);
 
+	// ── Horizontal scroll + wheel hijack ──
 	useEffect(() => {
-		if (!loaded) return; // ← wait for data first
+		if (!loaded) return;
 		const container = scrollContainerRef.current;
 		if (!container) return;
 
@@ -84,11 +55,10 @@ export default function PortfolioApp() {
 			setPage(newSection);
 		};
 
-		const handleWheel = (e) => {
-			if (e.deltaY !== 0) {
-				e.preventDefault();
-				container.scrollBy({ left: e.deltaY * 3, behavior: "smooth" });
-			}
+		const handleWheel = (e: WheelEvent) => {
+			if (document.body.classList.contains("drawer-open")) return;
+			e.preventDefault();
+			container.scrollBy({ left: e.deltaY * 3, behavior: "smooth" });
 		};
 
 		container.addEventListener("scroll", handleScroll);
@@ -98,32 +68,54 @@ export default function PortfolioApp() {
 			container.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("wheel", handleWheel);
 		};
-	}, [loaded]); // ← re-run when loaded becomes true
+	}, [loaded]);
 
-	const onNewMessage = useCallback(
-		(msg) => setData((d) => ({ ...d, messages: [msg, ...d.messages] })),
-		[],
-	);
-
-	if (!loaded) return null; // or a loading spinner
-	const scrollToSection = (index) => {
+	// ── Helpers ──
+	const scrollToSection = (index: number) => {
 		const container = scrollContainerRef.current;
-		if (container) {
-			container.scrollTo({
-				left: index * window.innerWidth,
-				behavior: "smooth",
-			});
+		if (!container) return;
+		container.scrollTo({
+			left: index * window.innerWidth,
+			behavior: "smooth",
+		});
+	};
+
+	const lockScroll = () => {
+		if (scrollContainerRef.current)
+			scrollContainerRef.current.style.overflowX = "hidden";
+	};
+
+	const unlockScroll = () => {
+		if (scrollContainerRef.current)
+			scrollContainerRef.current.style.overflowX = "auto";
+	};
+
+	const handleLogoClick = () => {
+		logoClicks.current += 1;
+		clearTimeout(logoTimer.current!);
+		logoTimer.current = setTimeout(() => {
+			logoClicks.current = 0;
+		}, 2000);
+		if (logoClicks.current === 5) {
+			logoClicks.current = 0;
+			setAdminOpen(true);
 		}
 	};
 
-	if (logoClicks.current === 5) {
-		logoClicks.current = 0;
-		setAdminOpen(true); // ← instead of scrollToSection(4)
-	}
+	const onNewMessage = useCallback(
+		(msg: any) =>
+			setData((d: any) => ({ ...d, messages: [msg, ...d.messages] })),
+		[],
+	);
+
+	// ── Wait for data ──
+	if (!loaded || !data) return null;
+
 	return (
 		<>
 			<SpaceBackground />
 			<Cursor />
+
 			{!adminOpen && (
 				<Nav
 					page={page}
@@ -133,7 +125,9 @@ export default function PortfolioApp() {
 				/>
 			)}
 
+			{/* ── Horizontal scroll container ── */}
 			<div
+				id="h-scroll"
 				ref={scrollContainerRef}
 				className="fixed inset-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory hide-scrollbar smooth-horizontal-scroll"
 				style={{
@@ -153,18 +147,21 @@ export default function PortfolioApp() {
 							setPage={setPage}
 						/>
 					</section>
+
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
 						<AboutSection data={data} />
 					</section>
+
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
 						<ProjectsSection data={data} />
 					</section>
+
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
@@ -175,25 +172,27 @@ export default function PortfolioApp() {
 							onFieldBlur={unlockScroll}
 						/>
 					</section>
-					{adminOpen && (
-						<div
-							style={{
-								position: "fixed",
-								inset: 0,
-								zIndex: 999,
-								overflowY: "auto",
-								background: "#020208",
-							}}
-						>
-							<AdminPanel
-								data={data}
-								setData={setData}
-								onClose={() => setAdminOpen(false)}
-							/>
-						</div>
-					)}
 				</div>
 			</div>
+
+			{/* ── Admin overlay ── */}
+			{adminOpen && (
+				<div
+					style={{
+						position: "fixed",
+						inset: 0,
+						zIndex: 999,
+						overflowY: "auto",
+						background: "#020208",
+					}}
+				>
+					<AdminPanel
+						data={data}
+						setData={setData}
+						onClose={() => setAdminOpen(false)}
+					/>
+				</div>
+			)}
 		</>
 	);
 }

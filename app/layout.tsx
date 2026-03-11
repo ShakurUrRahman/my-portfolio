@@ -5,13 +5,16 @@ export const metadata: Metadata = {
 	title: "Shakurur Rahman - Web Developer",
 	description: "Portfolio of Shakurur Rahman, Junior Web Developer",
 	icons: {
-		icon: "/favicon.png",
+		icon: "/favicon.ico",
 	},
 };
+
 export default function RootLayout({
 	children,
+	modal,
 }: {
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }) {
 	return (
 		<html lang="en">
@@ -21,7 +24,10 @@ export default function RootLayout({
 					content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-visual"
 				/>
 			</head>
-			<body>{children}</body>
+			<body>
+				{children}
+				{modal}
+			</body>
 		</html>
 	);
 }
