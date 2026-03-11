@@ -28,7 +28,7 @@ export function Glass({ children, className = "", hover = false }) {
 export function AnimatedTitle({ text, delay = 0 }) {
 	return (
 		<span className="inline-flex flex-wrap">
-			{text.split("").map((ch, i) => (
+			{text?.split("").map((ch, i) => (
 				<span
 					key={i}
 					className="inline-block anim-fade-up"
