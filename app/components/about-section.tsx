@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Glass, SectionTitle } from ".";
 import SkillBar from "./skill-bar";

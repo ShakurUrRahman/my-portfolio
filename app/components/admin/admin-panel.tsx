@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import AdminAbout from "./admin-about";
 import AdminProjects from "./admin-projects";
