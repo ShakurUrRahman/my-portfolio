@@ -14,7 +14,8 @@ const EMOJIS = ["🚀", "✨", "📊", "🎯", "⚡", "🌊"];
 
 function StatusDot({ status }: { status?: string }) {
 	if (!status) return null;
-	const ok = status === "Completed";
+	const label = status === true ? "Completed" : String(status);
+	const ok = label === "Completed";
 	return (
 		<span
 			className="font-mono text-xs px-2 py-0.5 rounded-full"
@@ -28,7 +29,6 @@ function StatusDot({ status }: { status?: string }) {
 			}}
 		>
 			{ok ? "● " : "◌ "}
-			{status}
 		</span>
 	);
 }

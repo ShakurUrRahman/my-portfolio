@@ -34,7 +34,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 					letterSpacing: "-0.02em",
 				}}
 			>
-				<AnimatedTitle text={data.about.name} delay={0.2} />
+				<AnimatedTitle text={data?.home?.shortName} delay={0.2} />
 			</h1>
 
 			{/* Role */}
@@ -43,7 +43,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
         text-xs sm:text-sm md:text-base lg:text-lg"
 				style={{ animationDelay: ".8s" }}
 			>
-				{data.about.role}
+				{data?.home?.title}
 			</p>
 
 			{/* Bio */}
@@ -53,7 +53,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
         text-xs sm:text-sm md:text-base"
 				style={{ color: "rgba(200,190,240,.65)", animationDelay: "1s" }}
 			>
-				{data.about.bio}
+				{data?.home?.description}
 			</p>
 
 			{/* CTAs */}

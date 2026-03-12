@@ -4,10 +4,12 @@ import AdminProjects from "./admin-projects";
 import AdminLogin from "./admin-login";
 import AdminDashboard from "./admin-dashboard";
 import AdminMessages from "./admin-message";
+import AdminHome from "./admin-home";
 
 export default function AdminPanel({ data, setData, setPage, onClose }) {
 	const [authed, setAuthed] = useState(false);
 	const [tab, setTab] = useState("dashboard");
+
 	if (!authed)
 		return (
 			<AdminLogin
@@ -19,6 +21,7 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
 
 	const tabs = [
 		{ key: "dashboard", label: "📊 Dashboard" },
+		{ key: "home", label: "🏠 Home" },
 		{ key: "about", label: "👤 About" },
 		{ key: "projects", label: "🚀 Projects" },
 		{
@@ -36,7 +39,7 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
       max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl
       mx-auto"
 		>
-			{/* Header — stacks on mobile */}
+			{/* Header */}
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8 md:mb-9">
 				<div>
 					<h2 className="font-syne font-extrabold text-white text-2xl sm:text-3xl">
@@ -83,6 +86,7 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
 			</div>
 
 			{tab === "dashboard" && <AdminDashboard data={data} />}
+			{tab === "home" && <AdminHome data={data} setData={setData} />}
 			{tab === "about" && <AdminAbout data={data} setData={setData} />}
 			{tab === "projects" && (
 				<AdminProjects data={data} setData={setData} />

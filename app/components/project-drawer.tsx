@@ -1,196 +1,15 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { Section, StatusBadge } from "./drawer-subcomponents";
+import ImageCell from "./drawer-subcomponents/image-cell";
+import CopyLinkButton from "./drawer-subcomponents/copy-link-button";
 
 const GRADIENTS = [
 	"linear-gradient(135deg,rgba(139,92,246,.7),rgba(6,182,212,.5))",
 	"linear-gradient(135deg,rgba(6,182,212,.6),rgba(16,185,129,.5))",
 	"linear-gradient(135deg,rgba(245,158,11,.5),rgba(139,92,246,.6))",
 ];
-
-// ─────────────────────────────────────────────
-// Sub-components
-// ─────────────────────────────────────────────
-
-function StatusBadge({ status }: { status: string }) {
-	const ok = status === "Completed";
-	return (
-		<span
-			className="font-mono text-xs uppercase tracking-widest px-3 py-1 rounded-full"
-			style={{
-				background: ok
-					? "rgba(16,185,129,.15)"
-					: "rgba(245,158,11,.15)",
-				border: `1px solid ${ok ? "rgba(16,185,129,.35)" : "rgba(245,158,11,.35)"}`,
-				color: ok ? "#10b981" : "#f59e0b",
-			}}
-		>
-			{ok ? "● " : "◌ "}
-			{status}
-		</span>
-	);
-}
-
-function Section({
-	label,
-	children,
-}: {
-	label: string;
-	children: React.ReactNode;
-}) {
-	return (
-		<div style={{ marginBottom: 28 }}>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					gap: 12,
-					marginBottom: 16,
-				}}
-			>
-				<p
-					className="font-mono text-xs uppercase tracking-widest"
-					style={{
-						color: "rgba(139,92,246,.5)",
-						whiteSpace: "nowrap",
-					}}
-				>
-					{label}
-				</p>
-				<div
-					style={{
-						flex: 1,
-						height: 1,
-						background:
-							"linear-gradient(to right, rgba(139,92,246,.2), transparent)",
-					}}
-				/>
-			</div>
-			{children}
-		</div>
-	);
-}
-
-function ImageCell({ src, gradient, emoji, style }: any) {
-	return (
-		<div
-			style={{
-				background: gradient,
-				borderRadius: 10,
-				overflow: "hidden",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				fontSize: 40,
-				position: "relative",
-				...style,
-			}}
-		>
-			{src ? (
-				<img
-					src={src}
-					alt=""
-					style={{
-						width: "100%",
-						height: "100%",
-						objectFit: "cover",
-					}}
-				/>
-			) : (
-				<>
-					<div
-						style={{
-							position: "absolute",
-							inset: 0,
-							background: gradient,
-						}}
-					/>
-					<span
-						style={{
-							position: "relative",
-							zIndex: 1,
-							opacity: 0.7,
-						}}
-					>
-						{emoji}
-					</span>
-				</>
-			)}
-		</div>
-	);
-}
-
-function CopyLinkButton({ projectId }: { projectId: number | string }) {
-	const [copied, setCopied] = useState(false);
-
-	const copy = () => {
-		const url = `${window.location.origin}${window.location.pathname}?project=${projectId}`;
-		navigator.clipboard.writeText(url).then(() => {
-			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
-		});
-	};
-
-	return (
-		<button
-			onClick={copy}
-			title="Copy shareable link"
-			style={{
-				background: copied
-					? "rgba(16,185,129,.15)"
-					: "rgba(139,92,246,.08)",
-				border: `1px solid ${copied ? "rgba(16,185,129,.4)" : "rgba(139,92,246,.25)"}`,
-				borderRadius: 8,
-				height: 34,
-				padding: "0 12px",
-				display: "flex",
-				alignItems: "center",
-				gap: 6,
-				cursor: "pointer",
-				color: copied ? "#10b981" : "rgba(139,92,246,.8)",
-				fontSize: 12,
-				fontFamily: "'DM Mono', monospace",
-				transition: "all .2s",
-				whiteSpace: "nowrap",
-			}}
-		>
-			{copied ? (
-				<>
-					<svg
-						width="12"
-						height="12"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2.5"
-					>
-						<polyline points="20 6 9 17 4 12" />
-					</svg>
-					Copied!
-				</>
-			) : (
-				<>
-					<svg
-						width="12"
-						height="12"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-					>
-						<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-						<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-					</svg>
-					Share
-				</>
-			)}
-		</button>
-	);
-}
-
-// ─────────────────────────────────────────────
-// Main Drawer
-// ─────────────────────────────────────────────
 
 export default function ProjectDrawer({
 	project,
@@ -201,12 +20,12 @@ export default function ProjectDrawer({
 }) {
 	const [visible, setVisible] = useState(false);
 
-	// Animate in + lock scroll (all in one effect)
+	// Animate in + lock scroll
 	useEffect(() => {
 		requestAnimationFrame(() => setVisible(true));
 
 		const hScroll = document.getElementById("h-scroll");
-		const nav = document.querySelector("nav");
+		const nav = document.querySelector("nav") as HTMLElement | null;
 		document.body.classList.add("drawer-open");
 		document.body.style.overflow = "hidden";
 		if (hScroll) {
@@ -214,6 +33,7 @@ export default function ProjectDrawer({
 			hScroll.style.overflowY = "auto";
 		}
 		if (nav) nav.style.display = "none";
+
 		return () => {
 			document.body.classList.remove("drawer-open");
 			document.body.style.overflow = "";
@@ -230,7 +50,6 @@ export default function ProjectDrawer({
 		setTimeout(onClose, 320);
 	}, [onClose]);
 
-	// ESC to close
 	useEffect(() => {
 		const fn = (e: KeyboardEvent) => {
 			if (e.key === "Escape") close();
@@ -244,31 +63,24 @@ export default function ProjectDrawer({
 			{/* Backdrop */}
 			<div
 				onClick={close}
+				className="fixed inset-0 transition-opacity duration-300"
 				style={{
-					position: "fixed",
-					inset: 0,
-					background: "rgba(0,0,0,.75)",
+					background: "rgba(0,0,0,.85)",
 					zIndex: 990,
 					opacity: visible ? 1 : 0,
-					transition: "opacity 320ms ease",
+					// backdropFilter: "blur(1px)",
+					// WebkitBackdropFilter: "blur(1px)",
 				}}
 			/>
 
 			{/* Drawer panel */}
 			<div
+				className="fixed top-0 right-0 h-full w-full overflow-y-auto"
 				style={{
-					position: "fixed",
-					top: 0,
-					right: 0,
-					height: "100%",
-					width: "100%",
-					maxWidth: 680,
-					background: "rgba(5,3,18,.97)",
-					backdropFilter: "blur(24px)",
-					WebkitBackdropFilter: "blur(24px)",
+					maxWidth: 980,
+					background: "rgb(5,3,18)",
 					borderLeft: "1px solid rgba(139,92,246,.2)",
 					zIndex: 991,
-					overflowY: "auto",
 					transform: visible ? "translateX(0)" : "translateX(100%)",
 					transition: "transform 320ms cubic-bezier(0.4,0,0.2,1)",
 					scrollbarWidth: "thin",
@@ -277,69 +89,41 @@ export default function ProjectDrawer({
 			>
 				{/* ── Sticky header ── */}
 				<div
+					className="sticky top-0 z-10 flex items-center justify-between gap-4 px-7 py-[18px]"
 					style={{
-						position: "sticky",
-						top: 0,
-						zIndex: 10,
-						background: "rgba(5,3,18,.92)",
+						background: "rgba(5,3,18,.95)",
 						backdropFilter: "blur(16px)",
 						borderBottom: "1px solid rgba(139,92,246,.12)",
-						padding: "18px 28px",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						gap: 16,
 					}}
 				>
-					<div
-						style={{
-							display: "flex",
-							alignItems: "center",
-							gap: 12,
-							minWidth: 0,
-						}}
-					>
+					<div className="flex items-center gap-3 min-w-0">
 						<span
-							className="font-mono text-xs tracking-widest uppercase"
-							style={{
-								color: "rgba(139,92,246,.5)",
-								flexShrink: 0,
-							}}
+							className="font-mono text-xs tracking-widest uppercase flex-shrink-0"
+							style={{ color: "rgba(139,92,246,.5)" }}
 						>
 							Project
 						</span>
 						<span
-							style={{
-								width: 1,
-								height: 14,
-								background: "rgba(139,92,246,.2)",
-								flexShrink: 0,
-							}}
+							className="flex-shrink-0 w-px h-3.5"
+							style={{ background: "rgba(139,92,246,.2)" }}
 						/>
 						<h1
 							className="font-syne font-extrabold text-white truncate"
 							style={{ fontSize: "clamp(14px,3vw,18px)" }}
 						>
-							{project.title}
+							{project.title.split(" ")[0]}
 						</h1>
 					</div>
 
-					<div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+					<div className="flex gap-2 flex-shrink-0">
 						<CopyLinkButton projectId={project.id} />
 						<button
 							onClick={close}
+							className="flex items-center justify-center w-[34px] h-[34px] rounded-lg text-base cursor-pointer"
 							style={{
 								background: "rgba(139,92,246,.1)",
 								border: "1px solid rgba(139,92,246,.25)",
-								borderRadius: 8,
-								width: 34,
-								height: 34,
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								cursor: "pointer",
 								color: "rgba(139,92,246,.8)",
-								fontSize: 16,
 							}}
 						>
 							✕
@@ -348,30 +132,21 @@ export default function ProjectDrawer({
 				</div>
 
 				{/* ── Body ── */}
-				<div style={{ padding: "32px 28px 60px" }}>
+				<div className="px-7 pt-8 pb-16">
 					{/* Title + meta */}
-					<div style={{ marginBottom: 28 }}>
+					<div className="mb-7">
 						<h2
-							className="font-syne font-extrabold text-white"
+							className="font-syne font-extrabold text-white mb-3.5"
 							style={{
 								fontSize: "clamp(26px,5vw,38px)",
 								lineHeight: 1.1,
 								letterSpacing: "-0.02em",
-								marginBottom: 14,
 							}}
 						>
 							{project.title}
 						</h2>
 
-						<div
-							style={{
-								display: "flex",
-								flexWrap: "wrap",
-								gap: 10,
-								alignItems: "center",
-								marginBottom: 16,
-							}}
-						>
+						<div className="flex flex-wrap gap-2.5 items-center mb-4">
 							{project.status && (
 								<StatusBadge status={project.status} />
 							)}
@@ -405,13 +180,7 @@ export default function ProjectDrawer({
 							)}
 						</div>
 
-						<div
-							style={{
-								display: "flex",
-								flexWrap: "wrap",
-								gap: 8,
-							}}
-						>
+						<div className="flex flex-wrap gap-2">
 							{project.tags?.map((tag: string) => (
 								<span key={tag} className="tag-badge">
 									{tag}
@@ -421,7 +190,7 @@ export default function ProjectDrawer({
 					</div>
 
 					{/* 3-image grid */}
-					<div style={{ marginBottom: 36 }}>
+					<div className="mb-9">
 						<p
 							className="font-mono text-xs uppercase tracking-widest mb-4"
 							style={{ color: "rgba(139,92,246,.5)" }}
@@ -429,13 +198,10 @@ export default function ProjectDrawer({
 							Preview
 						</p>
 						<div
+							className="grid gap-2.5 rounded-2xl overflow-hidden"
 							style={{
-								display: "grid",
 								gridTemplateColumns: "1fr 1fr",
 								gridTemplateRows: "180px 180px",
-								gap: 10,
-								borderRadius: 14,
-								overflow: "hidden",
 							}}
 						>
 							<ImageCell
@@ -472,39 +238,24 @@ export default function ProjectDrawer({
 					{/* How It Works */}
 					{project.howItWorks?.length > 0 && (
 						<Section label="How It Works">
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									gap: 14,
-								}}
-							>
+							<div className="flex flex-col gap-3.5">
 								{project.howItWorks.map(
 									(step: string, i: number) => (
 										<div
 											key={i}
-											style={{
-												display: "flex",
-												gap: 16,
-												alignItems: "flex-start",
-											}}
+											className="flex gap-4 items-start"
 										>
 											<span
-												className="font-syne font-extrabold"
+												className="font-syne font-extrabold flex items-center justify-center flex-shrink-0 rounded-md mt-px"
 												style={{
 													fontSize: 11,
+													width: 28,
+													height: 28,
+													minWidth: 28,
 													color: "rgba(139,92,246,.6)",
 													background:
 														"rgba(139,92,246,.08)",
 													border: "1px solid rgba(139,92,246,.2)",
-													borderRadius: 6,
-													width: 28,
-													height: 28,
-													minWidth: 28,
-													display: "flex",
-													alignItems: "center",
-													justifyContent: "center",
-													marginTop: 1,
 												}}
 											>
 												{String(i + 1).padStart(2, "0")}
@@ -528,41 +279,35 @@ export default function ProjectDrawer({
 					{project.features?.length > 0 && (
 						<Section label="Key Features">
 							<div
+								className="grid gap-2.5"
 								style={{
-									display: "grid",
 									gridTemplateColumns:
 										"repeat(auto-fill,minmax(200px,1fr))",
-									gap: 10,
 								}}
 							>
 								{project.features.map(
 									(f: string, i: number) => (
 										<div
 											key={i}
+											className="flex items-center gap-2.5 rounded-xl px-4 py-3"
 											style={{
 												background:
 													"rgba(139,92,246,.06)",
 												border: "1px solid rgba(139,92,246,.15)",
-												borderRadius: 10,
-												padding: "12px 16px",
-												display: "flex",
-												alignItems: "center",
-												gap: 10,
 											}}
 										>
 											<span
+												className="text-sm"
 												style={{
 													color: "rgba(6,182,212,.8)",
-													fontSize: 14,
 												}}
 											>
 												✦
 											</span>
 											<span
-												className="font-mono text-xs"
+												className="font-mono text-xs leading-snug"
 												style={{
 													color: "rgba(200,190,240,.8)",
-													lineHeight: 1.5,
 												}}
 											>
 												{f}
@@ -577,23 +322,20 @@ export default function ProjectDrawer({
 					{/* Challenges & Learnings */}
 					{(project.challenges || project.learnings) && (
 						<div
+							className="grid gap-3 mb-7"
 							style={{
-								display: "grid",
 								gridTemplateColumns:
 									project.challenges && project.learnings
 										? "1fr 1fr"
 										: "1fr",
-								gap: 12,
-								marginBottom: 28,
 							}}
 						>
 							{project.challenges && (
 								<div
+									className="rounded-xl p-5"
 									style={{
 										background: "rgba(239,68,68,.05)",
 										border: "1px solid rgba(239,68,68,.15)",
-										borderRadius: 12,
-										padding: 20,
 									}}
 								>
 									<p
@@ -614,11 +356,10 @@ export default function ProjectDrawer({
 							)}
 							{project.learnings && (
 								<div
+									className="rounded-xl p-5"
 									style={{
 										background: "rgba(16,185,129,.05)",
 										border: "1px solid rgba(16,185,129,.15)",
-										borderRadius: 12,
-										padding: 20,
 									}}
 								>
 									<p
@@ -642,25 +383,13 @@ export default function ProjectDrawer({
 
 					{/* Links */}
 					{(project.github || project.live) && (
-						<div
-							style={{
-								display: "flex",
-								gap: 12,
-								flexWrap: "wrap",
-							}}
-						>
+						<div className="flex gap-3 flex-wrap">
 							{project.github && (
 								<a
 									href={project.github}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="proj-ghost font-mono text-xs rounded-xl no-underline"
-									style={{
-										padding: "12px 24px",
-										display: "inline-flex",
-										alignItems: "center",
-										gap: 8,
-									}}
+									className="proj-ghost font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3"
 								>
 									<svg
 										width="14"
@@ -678,13 +407,7 @@ export default function ProjectDrawer({
 									href={project.live}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="proj-filled font-mono text-xs rounded-xl no-underline"
-									style={{
-										padding: "12px 24px",
-										display: "inline-flex",
-										alignItems: "center",
-										gap: 8,
-									}}
+									className="proj-filled font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3"
 								>
 									<svg
 										width="12"
