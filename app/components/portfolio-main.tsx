@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import SpaceBackground from "./components/space-background";
-import Cursor from "./components/cursor";
-import Nav from "./components/nav";
-import HomeSection from "./components/home-section";
-import AboutSection from "./components/about-section";
-import ProjectsSection from "./components/projects-section";
-import ContactSection from "./components/contact-section";
-import AdminPanel from "./components/admin/admin-panel";
+import SpaceBackground from "./space-background";
+import Cursor from "./cursor";
+import Nav from "./nav";
+import HomeSection from "./home-section";
+import AboutSection from "./about-section";
+import ProjectsSection from "./projects-section";
+import ContactSection from "./contact-section";
+import AdminPanel from "./admin/admin-panel";
 
 export default function PortfolioApp() {
 	const [data, setData] = useState<any>(null);

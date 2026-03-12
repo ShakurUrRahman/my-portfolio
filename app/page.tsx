@@ -1,4 +1,4 @@
-import PortfolioApp from "./portfolio-main";
+import PortfolioApp from "./components/portfolio-main";
 
 export default function Page() {
 	return <PortfolioApp />;
