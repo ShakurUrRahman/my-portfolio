@@ -11,10 +11,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
-	modal,
 }: {
 	children: React.ReactNode;
-	modal: React.ReactNode;
 }) {
 	return (
 		<html lang="en">
@@ -24,10 +22,7 @@ export default function RootLayout({
 					content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-visual"
 				/>
 			</head>
-			<body>
-				{children}
-				{modal}
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }

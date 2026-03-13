@@ -10,11 +10,15 @@ import ProjectsSection from "./projects-section";
 import ContactSection from "./contact-section";
 import AdminPanel from "./admin/admin-panel";
 
+import Loader from "./loader";
+import ExperienceSection from "./experience-section";
+
 export default function PortfolioApp() {
 	const [data, setData] = useState<any>(null);
 	const [loaded, setLoaded] = useState(false);
 	const [page, setPage] = useState(0);
 	const [adminOpen, setAdminOpen] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -113,6 +117,7 @@ export default function PortfolioApp() {
 
 	return (
 		<>
+			{loading && <Loader onDone={() => setLoading(false)} />}
 			<SpaceBackground />
 			<Cursor />
 
@@ -160,6 +165,12 @@ export default function PortfolioApp() {
 						style={{ zIndex: 1 }}
 					>
 						<ProjectsSection data={data} />
+					</section>
+					<section
+						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
+						style={{ zIndex: 1 }}
+					>
+						<ExperienceSection data={data} />
 					</section>
 
 					<section

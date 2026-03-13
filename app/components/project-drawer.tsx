@@ -96,7 +96,7 @@ export default function ProjectDrawer({
 						borderBottom: "1px solid rgba(139,92,246,.12)",
 					}}
 				>
-					<div className="flex items-center gap-3 min-w-0">
+					<div className="flex items-center ju gap-3 min-w-0">
 						<span
 							className="font-mono text-xs tracking-widest uppercase flex-shrink-0"
 							style={{ color: "rgba(139,92,246,.5)" }}
@@ -134,7 +134,7 @@ export default function ProjectDrawer({
 				{/* ── Body ── */}
 				<div className="px-7 pt-8 pb-16">
 					{/* Title + meta */}
-					<div className="mb-7">
+					<div className="mb-7 text-center">
 						<h2
 							className="font-syne font-extrabold text-white mb-3.5"
 							style={{
@@ -146,7 +146,7 @@ export default function ProjectDrawer({
 							{project.title}
 						</h2>
 
-						<div className="flex flex-wrap gap-2.5 items-center mb-4">
+						<div className="flex justify-center flex-wrap gap-2.5 items-center mb-4">
 							{project.status && (
 								<StatusBadge status={project.status} />
 							)}
@@ -180,7 +180,7 @@ export default function ProjectDrawer({
 							)}
 						</div>
 
-						<div className="flex flex-wrap gap-2">
+						<div className="flex justify-center flex-wrap gap-2">
 							{project.tags?.map((tag: string) => (
 								<span key={tag} className="tag-badge">
 									{tag}
@@ -322,7 +322,7 @@ export default function ProjectDrawer({
 					{/* Challenges & Learnings */}
 					{(project.challenges || project.learnings) && (
 						<div
-							className="grid gap-3 mb-7"
+							className="grid gap-3 mb-7 whitespace-pre-wrap"
 							style={{
 								gridTemplateColumns:
 									project.challenges && project.learnings

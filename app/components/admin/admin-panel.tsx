@@ -7,6 +7,7 @@ import AdminLogin from "./admin-login";
 import AdminDashboard from "./admin-dashboard";
 import AdminMessages from "./admin-message";
 import AdminHome from "./admin-home";
+import AdminExperience from "./admin-experience";
 
 export default function AdminPanel({ data, setData, setPage, onClose }) {
 	const [authed, setAuthed] = useState(false);
@@ -26,6 +27,7 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
 		{ key: "home", label: "🏠 Home" },
 		{ key: "about", label: "👤 About" },
 		{ key: "projects", label: "🚀 Projects" },
+		{ key: "experience", label: "💼 Experience" },
 		{
 			key: "messages",
 			label: `💬 Messages${data.messages.length ? ` (${data.messages.length})` : ""}`,
@@ -92,6 +94,9 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
 			{tab === "about" && <AdminAbout data={data} setData={setData} />}
 			{tab === "projects" && (
 				<AdminProjects data={data} setData={setData} />
+			)}
+			{tab === "experience" && (
+				<AdminExperience data={data} setData={setData} />
 			)}
 			{tab === "messages" && (
 				<AdminMessages data={data} setData={setData} />

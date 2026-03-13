@@ -8,8 +8,14 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [drawerVisible, setDrawerVisible] = useState(false);
 
-	const links = ["home", "about", "projects", "contact"];
-	const linkIndex = { home: 0, about: 1, projects: 2, contact: 3 };
+	const links = ["home", "about", "projects", "experience", "contact"];
+	const linkIndex = {
+		home: 0,
+		about: 1,
+		projects: 2,
+		experience: 3,
+		contact: 4,
+	};
 
 	useEffect(() => {
 		const fn = () => setScrolled(window.scrollY > 40);

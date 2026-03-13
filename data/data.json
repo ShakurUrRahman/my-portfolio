@@ -25,5 +25,19 @@
 		}
 	},
 	"projects": [],
+	"experience": [
+		{
+			"id": 1,
+			"company": "Your Company",
+			"role": "Frontend Developer",
+			"type": "Full-time",
+			"duration": "Jan 2024 – Present",
+			"location": "Remote",
+			"description": "Brief summary...",
+			"achievements": ["Built X", "Improved Y by Z%"],
+			"tags": ["React", "Next.js"],
+			"current": true
+		}
+	],
 	"messages": []
 }
