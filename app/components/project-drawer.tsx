@@ -321,15 +321,7 @@ export default function ProjectDrawer({
 
 					{/* Challenges & Learnings */}
 					{(project.challenges || project.learnings) && (
-						<div
-							className="grid gap-3 mb-7 whitespace-pre-wrap"
-							style={{
-								gridTemplateColumns:
-									project.challenges && project.learnings
-										? "1fr 1fr"
-										: "1fr",
-							}}
-						>
+						<div className="flex flex-col sm:flex-row gap-3 mb-7 whitespace-pre-wrap">
 							{project.challenges && (
 								<div
 									className="rounded-xl p-5"
