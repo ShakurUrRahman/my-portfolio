@@ -7,15 +7,16 @@ import PageImageArea from "./components/page-image-area";
 
 // ── Data fetching ──────────────────────────────────────────────────
 async function getData() {
-	const base =
-		process.env.NEXT_PUBLIC_APP_URL ??
-		(process.env.VERCEL_URL
-			? `https://${process.env.VERCEL_URL}`
-			: "http://localhost:3000");
-
-	const res = await fetch(`${base}/api/data`, { cache: "no-store" });
-	if (!res.ok) return null;
-	return res.json();
+	const supabase = createClient(
+		process.env.NEXT_PUBLIC_SUPABASE_URL!,
+		process.env.SUPABASE_SERVICE_KEY!,
+	);
+	const { data } = await supabase
+		.from("portfolio")
+		.select("data")
+		.eq("id", "main")
+		.single();
+	return data?.data ?? null;
 }
 
 export async function generateStaticParams() {
