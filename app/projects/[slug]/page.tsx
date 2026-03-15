@@ -4,6 +4,8 @@ import Cursor from "@/app/components/cursor";
 import Link from "next/link";
 import ImageCell from "@/app/components/drawer-subcomponents/image-cell";
 import PageImageArea from "./components/page-image-area";
+import { createClient } from "@supabase/supabase-js";
+import { notFound } from "next/navigation";
 
 // ── Data fetching ──────────────────────────────────────────────────
 async function getData() {
