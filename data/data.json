@@ -24,7 +24,29 @@
 			"twitter": "#"
 		}
 	},
-	"projects": [],
+	"projects": [
+		{
+			"id": 1,
+			"slug": "my-first-project",
+			"title": "My First Project",
+			"description": "Short description shown on the card.",
+			"thumbnail": null,
+			"images": [null, null, null],
+			"tags": [],
+			"github": "",
+			"live": "",
+			"visible": true,
+			"role": "",
+			"duration": "",
+			"year": "2025",
+			"status": "In Progress",
+			"overview": "",
+			"howItWorks": [],
+			"features": [],
+			"challenges": "",
+			"learnings": ""
+		}
+	],
 	"experience": [
 		{
 			"id": 1,

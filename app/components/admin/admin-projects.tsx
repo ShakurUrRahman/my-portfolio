@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Glass } from "..";
 
 function AdminField({
@@ -39,7 +39,6 @@ function AdminTextarea({
 }) {
 	return (
 		<div>
-			{/* make sure */}
 			<label className="block font-mono text-xs uppercase tracking-widest mb-1.5 sm:mb-2 text-purple-400">
 				{label}
 			</label>
@@ -56,8 +55,9 @@ function AdminTextarea({
 const blankProject = {
 	id: 0,
 	title: "",
+	slug: "",
 	description: "",
-	image: null as string | null,
+	thumbnail: "" as string,
 	images: [null, null, null] as (string | null)[],
 	tags: [] as string[],
 	github: "",
@@ -84,13 +84,27 @@ export default function AdminProjects({
 	const [editing, setEditing] = useState<number | null>(null);
 	const [showForm, setShowForm] = useState(false);
 	const [form, setForm] = useState({ ...blankProject });
-
-	// Tag input
 	const [tagInput, setTagInput] = useState("");
-	// How it works input
 	const [stepInput, setStepInput] = useState("");
-	// Feature input
 	const [featureInput, setFeatureInput] = useState("");
+
+	// ── Drag-to-reorder ──
+	const dragIndex = useRef<number | null>(null);
+
+	const onDragStart = (i: number) => {
+		dragIndex.current = i;
+	};
+	const onDragEnter = (i: number) => {
+		if (dragIndex.current === null || dragIndex.current === i) return;
+		const projects = [...data.projects];
+		const dragged = projects.splice(dragIndex.current, 1)[0];
+		projects.splice(i, 0, dragged);
+		dragIndex.current = i;
+		setData((d: any) => ({ ...d, projects }));
+	};
+	const onDragEnd = () => {
+		dragIndex.current = null;
+	};
 
 	const openNew = () => {
 		setForm({ ...blankProject, id: Date.now() });
@@ -105,6 +119,7 @@ export default function AdminProjects({
 		setForm({
 			...blankProject,
 			...p,
+			thumbnail: p.thumbnail ?? "",
 			images: p.images?.length ? p.images : [null, null, null],
 			howItWorks: p.howItWorks || [],
 			features: p.features || [],
@@ -135,7 +150,6 @@ export default function AdminProjects({
 			...d,
 			projects: d.projects.filter((p: any) => p.id !== id),
 		}));
-
 	const toggle = (id: number) =>
 		setData((d: any) => ({
 			...d,
@@ -143,13 +157,11 @@ export default function AdminProjects({
 				p.id === id ? { ...p, visible: !p.visible } : p,
 			),
 		}));
-
 	const updateImage = (index: number, url: string) => {
 		const imgs = [...form.images] as (string | null)[];
 		imgs[index] = url || null;
 		setForm({ ...form, images: imgs });
 	};
-
 	const addStep = () => {
 		if (stepInput.trim()) {
 			setForm({
@@ -159,13 +171,11 @@ export default function AdminProjects({
 			setStepInput("");
 		}
 	};
-
 	const removeStep = (i: number) =>
 		setForm({
 			...form,
 			howItWorks: form.howItWorks.filter((_, j) => j !== i),
 		});
-
 	const addFeature = () => {
 		if (featureInput.trim()) {
 			setForm({
@@ -175,14 +185,19 @@ export default function AdminProjects({
 			setFeatureInput("");
 		}
 	};
-
 	const removeFeature = (i: number) =>
 		setForm({ ...form, features: form.features.filter((_, j) => j !== i) });
 
 	return (
 		<div>
 			{/* Top bar */}
-			<div className="flex justify-end mb-4 sm:mb-5">
+			<div className="flex items-center justify-between mb-4 sm:mb-5">
+				<span
+					className="font-mono text-xs"
+					style={{ color: "rgba(200,190,240,.3)" }}
+				>
+					hold ⠿ to reorder
+				</span>
 				<button
 					onClick={openNew}
 					className="btn-primary font-mono text-xs uppercase tracking-widest text-white rounded-xl px-4 sm:px-5 py-2"
@@ -199,12 +214,21 @@ export default function AdminProjects({
 						{editing !== null ? "Edit Project" : "New Project"}
 					</h3>
 
-					{/* Basic info */}
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
 						<AdminField
 							label="Title"
 							value={form.title}
 							onChange={(v) => setForm({ ...form, title: v })}
+						/>
+						<AdminField
+							label="Slug"
+							value={form.slug ?? ""}
+							onChange={(v) =>
+								setForm({
+									...form,
+									slug: v.toLowerCase().replace(/\s+/g, "-"),
+								})
+							}
 						/>
 						<AdminField
 							label="Role"
@@ -233,7 +257,6 @@ export default function AdminProjects({
 						/>
 					</div>
 
-					{/* Status */}
 					<div className="mb-4">
 						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
 							Status
@@ -257,7 +280,6 @@ export default function AdminProjects({
 						</div>
 					</div>
 
-					{/* Description */}
 					<div className="mb-4">
 						<AdminTextarea
 							label="Short Description (card)"
@@ -268,8 +290,6 @@ export default function AdminProjects({
 							rows={2}
 						/>
 					</div>
-
-					{/* Overview */}
 					<div className="mb-4">
 						<AdminTextarea
 							label="Full Overview (drawer)"
@@ -279,7 +299,21 @@ export default function AdminProjects({
 						/>
 					</div>
 
-					{/* Images */}
+					<div className="mb-4">
+						<AdminField
+							label="Card Thumbnail URL"
+							value={form.thumbnail ?? ""}
+							onChange={(v) => setForm({ ...form, thumbnail: v })}
+						/>
+						<p
+							className="font-mono text-xs mt-1"
+							style={{ color: "rgba(200,190,240,.3)" }}
+						>
+							Shown on the project card grid. Leave blank to use
+							Image 1.
+						</p>
+					</div>
+
 					<div className="mb-5">
 						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
 							Preview Images (3 URLs)
@@ -310,7 +344,6 @@ export default function AdminProjects({
 						</div>
 					</div>
 
-					{/* Tags */}
 					<div className="mb-5">
 						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
 							Tags
@@ -386,7 +419,6 @@ export default function AdminProjects({
 						</div>
 					</div>
 
-					{/* How It Works */}
 					<div className="mb-5">
 						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
 							How It Works (steps)
@@ -404,12 +436,8 @@ export default function AdminProjects({
 									}}
 								>
 									<span
-										className="font-mono text-xs"
-										style={{
-											color: "rgba(139,92,246,.6)",
-											flexShrink: 0,
-											marginTop: 1,
-										}}
+										className="font-mono text-xs flex-shrink-0 mt-0.5"
+										style={{ color: "rgba(139,92,246,.6)" }}
 									>
 										{String(i + 1).padStart(2, "0")}
 									</span>
@@ -429,7 +457,6 @@ export default function AdminProjects({
 											border: "none",
 											color: "rgba(239,68,68,.6)",
 											cursor: "pointer",
-											flexShrink: 0,
 										}}
 									>
 										×
@@ -460,7 +487,6 @@ export default function AdminProjects({
 						</div>
 					</div>
 
-					{/* Key Features */}
 					<div className="mb-5">
 						<label className="block font-mono text-xs uppercase tracking-widest mb-2 text-purple-400">
 							Key Features
@@ -520,7 +546,6 @@ export default function AdminProjects({
 						</div>
 					</div>
 
-					{/* Challenges & Learnings */}
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
 						<AdminTextarea
 							label="Challenges"
@@ -538,7 +563,6 @@ export default function AdminProjects({
 						/>
 					</div>
 
-					{/* Actions */}
 					<div className="flex flex-wrap gap-3">
 						<button
 							onClick={save}
@@ -558,62 +582,94 @@ export default function AdminProjects({
 				</Glass>
 			)}
 
-			{/* ── Project List ── */}
+			{/* ── Project List — draggable ── */}
 			<div className="flex flex-col gap-2 sm:gap-3">
-				{data.projects.map((p: any) => (
-					<Glass
+				{data.projects.map((p: any, i: number) => (
+					<div
 						key={p.id}
-						className="px-4 sm:px-5 md:px-6 py-3 sm:py-4"
+						draggable
+						onDragStart={() => onDragStart(i)}
+						onDragEnter={() => onDragEnter(i)}
+						onDragEnd={onDragEnd}
+						onDragOver={(e) => e.preventDefault()}
+						style={{ cursor: "grab" }}
 					>
-						<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-							<div className="flex-1 min-w-0">
-								<div
-									className="font-syne font-semibold text-sm sm:text-base truncate"
+						{" "}
+						<Glass
+							key={p.id}
+							className="px-4 sm:px-5 md:px-6 py-3 sm:py-4 transition-opacity duration-150"
+							draggable
+							onDragStart={() => onDragStart(i)}
+							onDragEnter={() => onDragEnter(i)}
+							onDragEnd={onDragEnd}
+							onDragOver={(e: React.DragEvent) =>
+								e.preventDefault()
+							}
+						>
+							<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+								{/* Drag handle */}
+								<span
+									className="hidden sm:block flex-shrink-0 select-none text-lg leading-none"
 									style={{
-										color: p.visible
-											? "#fff"
-											: "rgba(200,190,240,.4)",
+										color: "rgba(139,92,246,.3)",
+										cursor: "grab",
 									}}
 								>
-									{p.title}
+									⠿
+								</span>
+
+								<div className="flex-1 min-w-0">
+									<div
+										className="font-syne font-semibold text-sm sm:text-base truncate"
+										style={{
+											color: p.visible
+												? "#fff"
+												: "rgba(200,190,240,.4)",
+										}}
+									>
+										{p.title}
+									</div>
+									<div
+										className="font-mono text-xs mt-0.5 sm:mt-1 flex gap-3 flex-wrap"
+										style={{
+											color: "rgba(200,190,240,.4)",
+										}}
+									>
+										<span>{p.tags?.join(", ")}</span>
+										{p.year && <span>· {p.year}</span>}
+										{p.status && <span>· {p.status}</span>}
+									</div>
 								</div>
-								<div
-									className="font-mono text-xs mt-0.5 sm:mt-1 flex gap-3"
-									style={{ color: "rgba(200,190,240,.4)" }}
-								>
-									<span>{p.tags?.join(", ")}</span>
-									{p.year && <span>· {p.year}</span>}
-									{p.status && <span>· {p.status}</span>}
+
+								<div className="flex flex-wrap gap-2">
+									<button
+										onClick={() => toggle(p.id)}
+										className={`font-mono text-xs rounded-lg px-3 py-1 ${p.visible ? "btn-success" : "btn-muted"}`}
+										style={{ cursor: "pointer" }}
+									>
+										{p.visible ? "Visible" : "Hidden"}
+									</button>
+									<button
+										onClick={() => openEdit(p)}
+										className="btn-ghost font-mono text-xs rounded-lg px-3 py-1"
+										style={{ cursor: "pointer" }}
+									>
+										Edit
+									</button>
+									<button
+										onClick={() => del(p.id)}
+										className="btn-danger font-mono text-xs rounded-lg px-3 py-1"
+										style={{
+											cursor: "pointer",
+											border: "none",
+										}}
+									>
+										Delete
+									</button>
 								</div>
 							</div>
-							<div className="flex flex-wrap gap-2">
-								<button
-									onClick={() => toggle(p.id)}
-									className={`font-mono text-xs rounded-lg px-3 py-1 ${p.visible ? "btn-success" : "btn-muted"}`}
-									style={{ cursor: "pointer" }}
-								>
-									{p.visible ? "Visible" : "Hidden"}
-								</button>
-								<button
-									onClick={() => openEdit(p)}
-									className="btn-ghost font-mono text-xs rounded-lg px-3 py-1"
-									style={{ cursor: "pointer" }}
-								>
-									Edit
-								</button>
-								<button
-									onClick={() => del(p.id)}
-									className="btn-danger font-mono text-xs rounded-lg px-3 py-1"
-									style={{
-										cursor: "pointer",
-										border: "none",
-									}}
-								>
-									Delete
-								</button>
-							</div>
-						</div>
-					</Glass>
+						</Glass>
+					</div>
 				))}
 			</div>
 		</div>

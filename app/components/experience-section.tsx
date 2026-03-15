@@ -55,7 +55,7 @@ export default function ExperienceSection({ data }: { data: any }) {
 			max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl
 			mx-auto"
 		>
-			<SectionTitle label="002" title="Experience" />
+			<SectionTitle label="003" title="Experience" />
 
 			{experiences.length === 0 ? (
 				<p

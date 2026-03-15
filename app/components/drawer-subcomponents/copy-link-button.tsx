@@ -3,14 +3,14 @@
 import { useState } from "react";
 
 export default function CopyLinkButton({
-	projectId,
+	projectSlug,
 }: {
-	projectId: number | string;
+	projectSlug: string;
 }) {
 	const [copied, setCopied] = useState(false);
 
 	const copy = () => {
-		const url = `${window.location.origin}${window.location.pathname}?project=${projectId}`;
+		const url = `${window.location.origin}/projects/${projectSlug}`;
 		navigator.clipboard.writeText(url).then(() => {
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);

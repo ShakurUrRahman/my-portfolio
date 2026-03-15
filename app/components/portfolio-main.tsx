@@ -12,6 +12,7 @@ import AdminPanel from "./admin/admin-panel";
 
 import Loader from "./loader";
 import ExperienceSection from "./experience-section";
+import { useRouter } from "next/navigation";
 
 export default function PortfolioApp() {
 	const [data, setData] = useState<any>(null);
@@ -22,6 +23,7 @@ export default function PortfolioApp() {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const router = useRouter();
 
 	// ── Fetch data on mount ──
 	useEffect(() => {
@@ -74,6 +76,16 @@ export default function PortfolioApp() {
 		};
 	}, [loaded]);
 
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		const section = params.get("section");
+		if (section !== null) {
+			scrollToSection(Number(section));
+			// clean up the URL
+			router.replace("/", { scroll: false });
+		}
+	}, [loaded]);
+
 	// ── Helpers ──
 	const scrollToSection = (index: number) => {
 		const container = scrollContainerRef.current;
@@ -124,7 +136,7 @@ export default function PortfolioApp() {
 			{!adminOpen && (
 				<Nav
 					page={page}
-					available={data.about.available}
+					available={data?.about?.available}
 					scrollToSection={scrollToSection}
 					onLogoClick={handleLogoClick}
 				/>

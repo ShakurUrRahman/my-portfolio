@@ -75,7 +75,7 @@ export default function ProjectDrawer({
 
 			{/* Drawer panel */}
 			<div
-				className="fixed top-0 right-0 h-full w-full overflow-y-auto"
+				className="fixed top-0 right-0 h-full w-full overflow-y-auto "
 				style={{
 					maxWidth: 980,
 					background: "rgb(5,3,18)",
@@ -89,37 +89,37 @@ export default function ProjectDrawer({
 			>
 				{/* ── Sticky header ── */}
 				<div
-					className="sticky top-0 z-10 flex items-center justify-between gap-4 px-7 py-[18px]"
+					className="sticky top-0 z-10 flex items-center justify-between gap-2 sm:gap-4 px-4 sm:px-7 py-3 sm:py-[18px]"
 					style={{
 						background: "rgba(5,3,18,.95)",
 						backdropFilter: "blur(16px)",
 						borderBottom: "1px solid rgba(139,92,246,.12)",
 					}}
 				>
-					<div className="flex items-center ju gap-3 min-w-0">
+					<div className="flex items-center gap-2 sm:gap-3 min-w-0">
 						<span
-							className="font-mono text-xs tracking-widest uppercase flex-shrink-0"
+							className="font-mono text-xs tracking-widest uppercase flex-shrink-0 hidden sm:block"
 							style={{ color: "rgba(139,92,246,.5)" }}
 						>
 							Project
 						</span>
 						<span
-							className="flex-shrink-0 w-px h-3.5"
+							className="flex-shrink-0 w-px h-3.5 hidden sm:block"
 							style={{ background: "rgba(139,92,246,.2)" }}
 						/>
 						<h1
 							className="font-syne font-extrabold text-white truncate"
-							style={{ fontSize: "clamp(14px,3vw,18px)" }}
+							style={{ fontSize: "clamp(13px,3vw,18px)" }}
 						>
 							{project.title.split(" ")[0]}
 						</h1>
 					</div>
 
-					<div className="flex gap-2 flex-shrink-0">
-						<CopyLinkButton projectId={project.id} />
+					<div className="flex gap-1.5 sm:gap-2 flex-shrink-0">
+						<CopyLinkButton projectSlug={project.slug} />
 						<button
 							onClick={close}
-							className="flex items-center justify-center w-[34px] h-[34px] rounded-lg text-base cursor-pointer"
+							className="flex items-center justify-center w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-lg text-sm sm:text-base cursor-pointer"
 							style={{
 								background: "rgba(139,92,246,.1)",
 								border: "1px solid rgba(139,92,246,.25)",
@@ -134,11 +134,11 @@ export default function ProjectDrawer({
 				{/* ── Body ── */}
 				<div className="px-7 pt-8 pb-16">
 					{/* Title + meta */}
-					<div className="mb-7 text-center">
+					<div className="mb-5 sm:mb-7 text-center px-2 sm:px-0">
 						<h2
-							className="font-syne font-extrabold text-white mb-3.5"
+							className="font-syne font-extrabold text-white mb-2.5 sm:mb-3.5"
 							style={{
-								fontSize: "clamp(26px,5vw,38px)",
+								fontSize: "clamp(20px,5vw,38px)",
 								lineHeight: 1.1,
 								letterSpacing: "-0.02em",
 							}}
@@ -146,7 +146,7 @@ export default function ProjectDrawer({
 							{project.title}
 						</h2>
 
-						<div className="flex justify-center flex-wrap gap-2.5 items-center mb-4">
+						<div className="flex justify-center flex-wrap gap-1.5 sm:gap-2.5 items-center mb-3 sm:mb-4">
 							{project.status && (
 								<StatusBadge status={project.status} />
 							)}
@@ -160,7 +160,7 @@ export default function ProjectDrawer({
 							)}
 							{project.duration && (
 								<span
-									className="font-mono text-xs"
+									className="font-mono text-xs hidden sm:inline"
 									style={{ color: "rgba(200,190,240,.4)" }}
 								>
 									· {project.duration}
@@ -168,7 +168,7 @@ export default function ProjectDrawer({
 							)}
 							{project.role && (
 								<span
-									className="font-mono text-xs px-3 py-1 rounded-full"
+									className="font-mono text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full"
 									style={{
 										background: "rgba(6,182,212,.1)",
 										border: "1px solid rgba(6,182,212,.25)",
@@ -180,7 +180,7 @@ export default function ProjectDrawer({
 							)}
 						</div>
 
-						<div className="flex justify-center flex-wrap gap-2">
+						<div className="flex justify-center flex-wrap gap-1.5 sm:gap-2">
 							{project.tags?.map((tag: string) => (
 								<span key={tag} className="tag-badge">
 									{tag}
@@ -190,36 +190,68 @@ export default function ProjectDrawer({
 					</div>
 
 					{/* 3-image grid */}
-					<div className="mb-9">
+					<div className="mb-4 sm:mb-9">
 						<p
 							className="font-mono text-xs uppercase tracking-widest mb-4"
 							style={{ color: "rgba(139,92,246,.5)" }}
 						>
 							Preview
 						</p>
+
+						{/* Mobile: single image */}
+						{/* Mobile: single image */}
 						<div
-							className="grid gap-2.5 rounded-2xl overflow-hidden"
-							style={{
-								gridTemplateColumns: "1fr 1fr",
-								gridTemplateRows: "180px 180px",
-							}}
+							className="block sm:hidden rounded-xl overflow-hidden"
+							style={{ height: 150 }}
 						>
 							<ImageCell
 								src={project.images?.[0]}
 								gradient={GRADIENTS[0]}
 								emoji="🚀"
-								style={{ gridRow: "1 / 3" }}
 							/>
-							<ImageCell
-								src={project.images?.[1]}
-								gradient={GRADIENTS[1]}
-								emoji="⚡"
-							/>
-							<ImageCell
-								src={project.images?.[2]}
-								gradient={GRADIENTS[2]}
-								emoji="✦"
-							/>
+						</div>
+
+						{/* sm+: 1 full-width top + 2 side by side bottom */}
+						<div className="hidden sm:flex flex-col gap-2 md:gap-2.5 rounded-2xl overflow-hidden">
+							{/* Full width top */}
+							<div
+								className="rounded-xl overflow-hidden"
+								style={{ height: "clamp(180px,22vw,280px)" }}
+							>
+								<ImageCell
+									src={project.images?.[0]}
+									gradient={GRADIENTS[0]}
+									emoji="🚀"
+								/>
+							</div>
+
+							{/* Two side by side */}
+							<div className="grid grid-cols-2 gap-2 md:gap-2.5">
+								<div
+									className="rounded-xl overflow-hidden"
+									style={{
+										height: "clamp(120px,14vw,180px)",
+									}}
+								>
+									<ImageCell
+										src={project.images?.[1]}
+										gradient={GRADIENTS[1]}
+										emoji="⚡"
+									/>
+								</div>
+								<div
+									className="rounded-xl overflow-hidden"
+									style={{
+										height: "clamp(120px,14vw,180px)",
+									}}
+								>
+									<ImageCell
+										src={project.images?.[2]}
+										gradient={GRADIENTS[2]}
+										emoji="✦"
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 

@@ -57,7 +57,7 @@ export default function ContactSection({
       max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl
       mx-auto"
 		>
-			<SectionTitle label="003" title="Get In Touch" />
+			<SectionTitle label="004" title="Get In Touch" />
 
 			<Glass className="p-6 sm:p-8 md:p-10 lg:p-12 mt-8 sm:mt-10 md:mt-12">
 				{sent ? (

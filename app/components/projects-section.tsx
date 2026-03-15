@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SectionTitle } from ".";
 import ProjectDrawer from "./project-drawer";
+import Link from "next/link";
 
 const GRADIENTS = [
 	"linear-gradient(135deg,rgba(139,92,246,.6),rgba(6,182,212,.6))",
@@ -104,11 +105,11 @@ export default function ProjectsSection({ data }: { data: any }) {
 								background: GRADIENTS[i % GRADIENTS.length],
 							}}
 						>
-							{p.image ? (
+							{p.thumbnail || p.images?.[0] ? (
 								<img
-									src={p.image}
+									src={p.thumbnail || p.images?.[0]}
 									alt={p.title}
-									className="w-full h-full object-cover"
+									className="w-full h-full object-cover object-center"
 								/>
 							) : (
 								EMOJIS[i % EMOJIS.length]
@@ -175,7 +176,7 @@ export default function ProjectsSection({ data }: { data: any }) {
 											color: "rgba(200,190,240,.3)",
 										}}
 									>
-										{p.year}
+										({p.year})
 									</span>
 								)}
 							</div>
@@ -193,7 +194,7 @@ export default function ProjectsSection({ data }: { data: any }) {
 						{/* Links — stopPropagation so card click doesn't also fire */}
 						<div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-2">
 							{p.github && (
-								<a
+								<Link
 									href={p.github}
 									target="_blank"
 									rel="noopener noreferrer"
@@ -201,10 +202,10 @@ export default function ProjectsSection({ data }: { data: any }) {
 									className="proj-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
 								>
 									⌥ GitHub
-								</a>
+								</Link>
 							)}
 							{p.live && (
-								<a
+								<Link
 									href={p.live}
 									target="_blank"
 									rel="noopener noreferrer"
@@ -212,8 +213,15 @@ export default function ProjectsSection({ data }: { data: any }) {
 									className="proj-filled font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
 								>
 									↗ Live
-								</a>
+								</Link>
 							)}
+							{/* <Link
+								href={`/projects/${p.slug}`}
+								onClick={(e) => e.stopPropagation()}
+								className="proj-ghost font-mono text-xs rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 no-underline"
+							>
+								↗ Full Page
+							</Link> */}
 						</div>
 					</div>
 				))}
