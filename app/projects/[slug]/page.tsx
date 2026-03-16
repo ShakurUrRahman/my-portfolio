@@ -257,11 +257,13 @@ export default async function ProjectPage({
 
 					{/* ── 3-image grid ── */}
 					<div className="mb-4 sm:mb-9">
-						<PageImageArea
-							images={project.images}
-							className="mb-14 sm:mb-16"
-							mobileHeight={220}
-						/>
+						<Section label="Preview">
+							<PageImageArea
+								images={project.images}
+								className="mb-14 sm:mb-16"
+								mobileHeight={220}
+							/>
+						</Section>
 					</div>
 
 					{/* ── Overview ── */}

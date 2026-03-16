@@ -161,11 +161,13 @@ export default function ProjectDrawer({
 					</div>
 
 					{/* 3-image grid */}
-					<PageImageArea
-						images={project.images}
-						className="mb-4 sm:mb-9"
-						mobileHeight={150}
-					/>
+					<Section label="Preview">
+						<PageImageArea
+							images={project.images}
+							className="mb-4 sm:mb-9"
+							mobileHeight={150}
+						/>
+					</Section>
 
 					{/* Overview */}
 					{project.overview && (
