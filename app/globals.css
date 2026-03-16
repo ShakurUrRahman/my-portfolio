@@ -189,6 +189,20 @@ body {
 	}
 }
 
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+.skeleton-loader {
+	animation: shimmer 1.5s infinite;
+}
+
 /* ─────────────────────────────────────────────
    ANIMATION UTILITY CLASSES
 ───────────────────────────────────────────── */

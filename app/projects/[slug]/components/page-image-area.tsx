@@ -10,15 +10,19 @@ const GRADIENTS = [
 
 export default function PageImageArea({
 	images,
+	className = "",
+	mobileHeight = 200,
 }: {
 	images: (string | null)[];
+	className?: string;
+	mobileHeight?: number;
 }) {
 	return (
-		<>
-			{/* Mobile: single image */}
+		<div className={className}>
+			{/* Mobile */}
 			<div
 				className="block sm:hidden rounded-xl overflow-hidden"
-				style={{ height: 220 }}
+				style={{ height: mobileHeight }}
 			>
 				<ImageCell
 					src={images?.[0]}
@@ -27,7 +31,7 @@ export default function PageImageArea({
 				/>
 			</div>
 
-			{/* sm+: 1 full-width top + 2 side by side bottom */}
+			{/* sm+: 1 full-width top + 2 side by side */}
 			<div className="hidden sm:flex flex-col gap-2 md:gap-2.5 rounded-2xl overflow-hidden">
 				<div
 					className="rounded-xl overflow-hidden"
@@ -62,6 +66,6 @@ export default function PageImageArea({
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

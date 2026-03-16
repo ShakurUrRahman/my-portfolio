@@ -40,7 +40,7 @@ export default function AdminPanel({ data, setData, setPage, onClose }) {
       pt-20 sm:pt-22 md:pt-24
       pb-12 sm:pb-14 md:pb-16
       px-3 sm:px-4 md:px-6
-      max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl
+      max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl
       mx-auto"
 		>
 			{/* Header */}

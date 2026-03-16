@@ -23,39 +23,44 @@ export function StatusBadge({ status }: { status?: string | boolean }) {
 export function Section({
 	label,
 	children,
+	card = false,
+	className = "",
 }: {
 	label: string;
 	children: React.ReactNode;
+	card?: boolean;
+	className?: string;
 }) {
 	return (
-		<div style={{ marginBottom: 28 }}>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					gap: 12,
-					marginBottom: 16,
-				}}
-			>
+		<div className={`mb-8 sm:mb-10 ${className}`}>
+			<div className="flex items-center gap-4 mb-5">
 				<p
-					className="font-mono text-xs uppercase tracking-widest"
-					style={{
-						color: "rgba(139,92,246,.5)",
-						whiteSpace: "nowrap",
-					}}
+					className="font-mono text-xs uppercase tracking-widest flex-shrink-0"
+					style={{ color: "rgba(139,92,246,.5)" }}
 				>
 					{label}
 				</p>
 				<div
+					className="flex-1 h-px"
 					style={{
-						flex: 1,
-						height: 1,
 						background:
 							"linear-gradient(to right, rgba(139,92,246,.2), transparent)",
 					}}
 				/>
 			</div>
-			{children}
+			{card ? (
+				<div
+					className="rounded-2xl p-6 sm:p-8"
+					style={{
+						background: "rgba(139,92,246,.04)",
+						border: "1px solid rgba(139,92,246,.12)",
+					}}
+				>
+					{children}
+				</div>
+			) : (
+				children
+			)}
 		</div>
 	);
 }

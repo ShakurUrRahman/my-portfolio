@@ -77,14 +77,22 @@ export default function PortfolioApp() {
 	}, [loaded]);
 
 	useEffect(() => {
+		if (!loaded) return;
 		const params = new URLSearchParams(window.location.search);
 		const section = params.get("section");
-		if (section !== null) {
+		if (!section) return;
+		setTimeout(() => {
 			scrollToSection(Number(section));
-			// clean up the URL
-			router.replace("/", { scroll: false });
-		}
+			window.history.replaceState({}, "", "/");
+		}, 800);
 	}, [loaded]);
+
+	useEffect(() => {
+		const hasSection = new URLSearchParams(window.location.search).has(
+			"section",
+		);
+		if (hasSection) setLoading(false);
+	}, []);
 
 	// ── Helpers ──
 	const scrollToSection = (index: number) => {
