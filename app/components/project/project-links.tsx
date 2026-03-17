@@ -18,7 +18,7 @@ export default function ProjectLinks({
 					href={github}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="proj-ghost font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3"
+					className="proj-ghost font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3 cursor-pointer"
 				>
 					<svg
 						width="14"
@@ -36,7 +36,7 @@ export default function ProjectLinks({
 					href={live}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="proj-filled font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3"
+					className="proj-filled font-mono text-xs rounded-xl no-underline inline-flex items-center gap-2 px-6 py-3 cursor-pointer"
 				>
 					<svg
 						width="12"

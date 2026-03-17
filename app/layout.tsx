@@ -22,7 +22,7 @@ export default function RootLayout({
 					content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-visual"
 				/>
 			</head>
-			<body>{children}</body>
+			<body suppressHydrationWarning>{children}</body>
 		</html>
 	);
 }

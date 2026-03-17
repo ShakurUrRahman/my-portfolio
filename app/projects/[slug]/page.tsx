@@ -14,6 +14,7 @@ import {
 	ProjectTags,
 	ProjectTitle,
 } from "@/app/components/project/project-hero";
+import StarsBackground from "./components/project-stars-background";
 
 // ── Data fetching ──────────────────────────────────────────────────
 async function getData() {
@@ -39,12 +40,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+	const { slug } = await params;
 	const data = await getData();
-	const project = data?.projects?.find(
-		(p: any) => String(p.slug) === params.slug,
-	);
+	const project = data?.projects?.find((p: any) => p.slug === slug);
 	if (!project) return { title: "Project Not Found" };
 	return {
 		title: `${project.title} — Shakur Portfolio`,
@@ -111,65 +111,20 @@ function Section({
 export default async function ProjectPage({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ slug: string }>;
 }) {
+	const { slug } = await params;
 	const data = await getData();
-	const project = data?.projects?.find((p: any) => p.slug === params.slug);
+	const project = data?.projects?.find((p: any) => p.slug === slug);
 	if (!project) notFound();
+
+	// console.log(project);
 
 	return (
 		<div style={{ background: "rgb(2,2,8)", minHeight: "100vh" }}>
 			<Cursor />
 			{/* ── Stars background ── */}
-			<div
-				style={{
-					position: "fixed",
-					inset: 0,
-					zIndex: 0,
-					overflow: "hidden",
-					pointerEvents: "none",
-				}}
-			>
-				{Array.from({ length: 60 }, (_, i) => (
-					<div
-						key={i}
-						style={{
-							position: "absolute",
-							left: `${(i * 137.5) % 100}%`,
-							top: `${(i * 97.3) % 100}%`,
-							width: i % 5 === 0 ? 2 : 1,
-							height: i % 5 === 0 ? 2 : 1,
-							borderRadius: "50%",
-							background: "rgba(200,190,240,.4)",
-						}}
-					/>
-				))}
-				<div
-					style={{
-						position: "absolute",
-						top: "20%",
-						left: "60%",
-						width: 500,
-						height: 500,
-						borderRadius: "50%",
-						background:
-							"radial-gradient(circle,rgba(139,92,246,.05) 0%,transparent 70%)",
-					}}
-				/>
-				<div
-					style={{
-						position: "absolute",
-						top: "60%",
-						left: "20%",
-						width: 400,
-						height: 400,
-						borderRadius: "50%",
-						background:
-							"radial-gradient(circle,rgba(6,182,212,.04) 0%,transparent 70%)",
-					}}
-				/>
-			</div>
-
+			<StarsBackground />
 			{/* ── Nav bar ── */}
 			<nav
 				style={{
