@@ -16,6 +16,8 @@ import {
 } from "@/app/components/project/project-hero";
 import StarsBackground from "./components/project-stars-background";
 
+export const dynamic = "force-dynamic";
+
 // ── Data fetching ──────────────────────────────────────────────────
 async function getData() {
 	const supabase = createClient(
