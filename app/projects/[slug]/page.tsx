@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Cursor from "@/app/components/cursor";
 import Link from "next/link";
-import ImageCell from "@/app/components/drawer-subcomponents/image-cell";
+import { getData } from "@/lib/getData";
+import Cursor from "@/app/components/cursor";
+import StarsBackground from "./components/project-stars-background";
 import PageImageArea from "./components/page-image-area";
-import { createClient } from "@supabase/supabase-js";
 import ProjectLinks from "@/app/components/project/project-links";
 import { ChallengesLearnings } from "@/app/components/project/challenges-learnings";
 import KeyFeatures from "@/app/components/project/key-features";
@@ -14,24 +14,10 @@ import {
 	ProjectTags,
 	ProjectTitle,
 } from "@/app/components/project/project-hero";
-import StarsBackground from "./components/project-stars-background";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
-// ── Data fetching ──────────────────────────────────────────────────
-async function getData() {
-	const supabase = createClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.SUPABASE_SERVICE_KEY!,
-	);
-	const { data } = await supabase
-		.from("portfolio")
-		.select("data")
-		.eq("id", "main")
-		.single();
-	return data?.data ?? null;
-}
-
+// ── Static params ──────────────────────────────────────────────────
 export async function generateStaticParams() {
 	const data = await getData();
 	return (data?.projects ?? [])
@@ -39,6 +25,7 @@ export async function generateStaticParams() {
 		.map((p: any) => ({ slug: p.slug }));
 }
 
+// ── Metadata ───────────────────────────────────────────────────────
 export async function generateMetadata({
 	params,
 }: {
@@ -54,38 +41,15 @@ export async function generateMetadata({
 	};
 }
 
-// ── Sub-components ─────────────────────────────────────────────────
-const GRADIENTS = [
-	"linear-gradient(135deg,rgba(139,92,246,.7),rgba(6,182,212,.5))",
-	"linear-gradient(135deg,rgba(6,182,212,.6),rgba(16,185,129,.5))",
-	"linear-gradient(135deg,rgba(245,158,11,.5),rgba(139,92,246,.6))",
-];
-
-function StatusBadge({ status }: { status: string }) {
-	const ok = status === "Completed";
-	return (
-		<span
-			className="font-mono text-xs px-3 py-1 rounded-full uppercase tracking-widest"
-			style={{
-				background: ok
-					? "rgba(16,185,129,.12)"
-					: "rgba(245,158,11,.12)",
-				border: `1px solid ${ok ? "rgba(16,185,129,.3)" : "rgba(245,158,11,.3)"}`,
-				color: ok ? "#10b981" : "#f59e0b",
-			}}
-		>
-			{ok ? "● " : "◌ "}
-			{status}
-		</span>
-	);
-}
-
+// ── Section wrapper ────────────────────────────────────────────────
 function Section({
 	label,
 	children,
+	card = false,
 }: {
 	label: string;
 	children: React.ReactNode;
+	card?: boolean;
 }) {
 	return (
 		<div className="mb-10 sm:mb-12">
@@ -104,7 +68,19 @@ function Section({
 					}}
 				/>
 			</div>
-			{children}
+			{card ? (
+				<div
+					className="rounded-2xl p-6 sm:p-8"
+					style={{
+						background: "rgba(139,92,246,.04)",
+						border: "1px solid rgba(139,92,246,.12)",
+					}}
+				>
+					{children}
+				</div>
+			) : (
+				children
+			)}
 		</div>
 	);
 }
@@ -120,14 +96,12 @@ export default async function ProjectPage({
 	const project = data?.projects?.find((p: any) => p.slug === slug);
 	if (!project) notFound();
 
-	// console.log(project);
-
 	return (
 		<div style={{ background: "rgb(2,2,8)", minHeight: "100vh" }}>
 			<Cursor />
-			{/* ── Stars background ── */}
 			<StarsBackground />
-			{/* ── Nav bar ── */}
+
+			{/* ── Nav ── */}
 			<nav
 				style={{
 					position: "fixed",
@@ -170,22 +144,20 @@ export default async function ProjectPage({
 				</Link>
 			</nav>
 
-			{/* ── Main content ── */}
+			{/* ── Main ── */}
 			<main className="relative" style={{ zIndex: 1, paddingTop: 100 }}>
 				<div
 					className="mx-auto px-4 sm:px-6 md:px-10"
 					style={{ maxWidth: 1260 }}
 				>
-					{/* ── Hero ── */}
+					{/* Hero */}
 					<div className="text-center mb-10 sm:mb-14">
-						{/* Eyebrow */}
 						<p
 							className="font-mono text-xs uppercase tracking-widest mb-5"
 							style={{ color: "rgba(139,92,246,.5)" }}
 						>
 							Case Study
 						</p>
-
 						<ProjectTitle
 							project={project}
 							size="page"
@@ -201,8 +173,6 @@ export default async function ProjectPage({
 							project={project}
 							className="justify-center mb-8"
 						/>
-
-						{/* CTA links */}
 						{(project.github || project.live) && (
 							<ProjectLinks
 								github={project.github}
@@ -212,18 +182,15 @@ export default async function ProjectPage({
 						)}
 					</div>
 
-					{/* ── 3-image grid ── */}
-					<div className="mb-4 sm:mb-9">
-						<Section label="Preview">
-							<PageImageArea
-								images={project.images}
-								className="mb-14 sm:mb-16"
-								mobileHeight={220}
-							/>
-						</Section>
-					</div>
+					{/* Preview images */}
+					<Section label="Preview">
+						<PageImageArea
+							images={project.images}
+							mobileHeight={220}
+						/>
+					</Section>
 
-					{/* ── Overview ── */}
+					{/* Overview */}
 					{project.overview && (
 						<Section label="Overview" card>
 							<p
@@ -235,7 +202,7 @@ export default async function ProjectPage({
 						</Section>
 					)}
 
-					{/* ── How It Works ── */}
+					{/* How It Works */}
 					{project.howItWorks?.length > 0 && (
 						<HowItWorks
 							steps={project.howItWorks}
@@ -244,7 +211,7 @@ export default async function ProjectPage({
 						/>
 					)}
 
-					{/* ── Key Features ── */}
+					{/* Key Features */}
 					{project.features?.length > 0 && (
 						<KeyFeatures
 							features={project.features}
@@ -252,9 +219,9 @@ export default async function ProjectPage({
 						/>
 					)}
 
-					{/* ── Challenges & Learnings ── */}
+					{/* Challenges & Learnings */}
 					{(project.challenges?.length > 0 ||
-						project.learnings.length > 0) && (
+						project.learnings?.length > 0) && (
 						<Section label="Insights">
 							<ChallengesLearnings
 								challenges={project.challenges}
@@ -266,7 +233,7 @@ export default async function ProjectPage({
 						</Section>
 					)}
 
-					{/* ── Footer CTA ── */}
+					{/* Footer CTA */}
 					<div
 						className="mt-10 mb-16 rounded-2xl p-8 sm:p-12 text-center"
 						style={{

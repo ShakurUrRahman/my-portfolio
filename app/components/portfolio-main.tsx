@@ -1,43 +1,39 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import SpaceBackground from "./space-background";
 import Cursor from "./cursor";
 import Nav from "./nav";
 import HomeSection from "./home-section";
 import AboutSection from "./about-section";
 import ProjectsSection from "./projects-section";
+import ExperienceSection from "./experience-section";
 import ContactSection from "./contact-section";
 import AdminPanel from "./admin/admin-panel";
-
 import Loader from "./loader";
-import ExperienceSection from "./experience-section";
-import { useRouter } from "next/navigation";
 
-export default function PortfolioApp() {
-	const [data, setData] = useState<any>(null);
-	const [loaded, setLoaded] = useState(false);
+export default function PortfolioMain({ data: initialData }: { data: any }) {
+	const [data, setData] = useState<any>(initialData);
 	const [page, setPage] = useState(0);
 	const [adminOpen, setAdminOpen] = useState(false);
 	const [loading, setLoading] = useState(true);
+
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const router = useRouter();
 
-	// ── Fetch data on mount ──
+	// ── Skip loader when coming from project page CTA ──
 	useEffect(() => {
-		fetch("/api/data")
-			.then((r) => r.json())
-			.then((d) => {
-				setData(d);
-				setLoaded(true);
-			});
+		const hasSection = new URLSearchParams(window.location.search).has(
+			"section",
+		);
+		if (hasSection) setLoading(false);
 	}, []);
 
-	// ── Persist data to API (debounced 800ms) ──
+	// ── Persist data to Supabase (debounced 800ms) ──
 	useEffect(() => {
-		if (!loaded || !data?.about) return;
+		if (!data?.about) return;
 		const timer = setTimeout(() => {
 			fetch("/api/data", {
 				method: "POST",
@@ -46,11 +42,10 @@ export default function PortfolioApp() {
 			});
 		}, 800);
 		return () => clearTimeout(timer);
-	}, [data, loaded]);
+	}, [data]);
 
 	// ── Horizontal scroll + wheel hijack ──
 	useEffect(() => {
-		if (!loaded) return;
 		const container = scrollContainerRef.current;
 		if (!container) return;
 
@@ -69,15 +64,14 @@ export default function PortfolioApp() {
 
 		container.addEventListener("scroll", handleScroll);
 		window.addEventListener("wheel", handleWheel, { passive: false });
-
 		return () => {
 			container.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("wheel", handleWheel);
 		};
-	}, [loaded]);
+	}, []);
 
+	// ── Scroll to section from ?section= param ──
 	useEffect(() => {
-		if (!loaded) return;
 		const params = new URLSearchParams(window.location.search);
 		const section = params.get("section");
 		if (!section) return;
@@ -85,13 +79,6 @@ export default function PortfolioApp() {
 			scrollToSection(Number(section));
 			window.history.replaceState({}, "", "/");
 		}, 800);
-	}, [loaded]);
-
-	useEffect(() => {
-		const hasSection = new URLSearchParams(window.location.search).has(
-			"section",
-		);
-		if (hasSection) setLoading(false);
 	}, []);
 
 	// ── Helpers ──
@@ -132,12 +119,12 @@ export default function PortfolioApp() {
 		[],
 	);
 
-	// ── Wait for data ──
-	if (!loaded || !data) return null;
+	if (!data) return null;
 
 	return (
 		<>
 			{loading && <Loader onDone={() => setLoading(false)} />}
+
 			<SpaceBackground />
 			<Cursor />
 
@@ -161,7 +148,7 @@ export default function PortfolioApp() {
 					scrollBehavior: "smooth",
 				}}
 			>
-				<div className="flex h-full" style={{ width: "400vw" }}>
+				<div className="flex h-full" style={{ width: "500vw" }}>
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-hidden"
 						style={{ zIndex: 1 }}
@@ -186,6 +173,7 @@ export default function PortfolioApp() {
 					>
 						<ProjectsSection data={data} />
 					</section>
+
 					<section
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
