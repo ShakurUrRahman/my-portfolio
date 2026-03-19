@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,10 +31,10 @@ body {
    FONTS
 ───────────────────────────────────────────── */
 .font-syne {
-	font-family: "Syne", sans-serif;
+	font-family: var(--font-syne), sans-serif;
 }
 .font-mono {
-	font-family: "DM Mono", monospace !important;
+	font-family: var(--font-dm-mono), monospace !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -63,6 +61,8 @@ body {
 /* ─────────────────────────────────────────────
    KEYFRAMES
 ───────────────────────────────────────────── */
+
+/* Fade up */
 @keyframes fadeUp {
 	from {
 		opacity: 0;
@@ -74,67 +74,53 @@ body {
 	}
 }
 
-@keyframes fadeUp {
-	from {
-		opacity: 0;
-		transform: translateY(24px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
+/* Glow pulse — opacity only (composited, no box-shadow) */
 @keyframes glowPulse {
 	0%,
 	100% {
-		box-shadow: 0 0 8px #10b981;
-	}
-	50% {
-		box-shadow:
-			0 0 16px #10b981,
-			0 0 24px rgba(16, 185, 129, 0.4);
-	}
-}
-
-@keyframes scrollLine {
-	0% {
-		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: left;
+		opacity: 0.4;
 	}
 	50% {
 		opacity: 1;
+	}
+}
+
+/* Scroll hint lines — scaleX only (composited, no width) */
+@keyframes line-expand {
+	from {
+		transform: scaleX(0);
+	}
+	to {
 		transform: scaleX(1);
 	}
+}
+
+/* Scroll wheel dot — translateX only (composited, no left) */
+@keyframes scroll-wheel-horizontal {
+	0%,
 	100% {
-		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: right;
-	}
-}
-
-.anim-scroll-icon {
-	animation: scroll-icon 2s ease-in-out infinite;
-}
-
-@keyframes scrollHorizontal {
-	0% {
-		opacity: 0;
-		transform: scaleX(0) translateX(-10px);
-		transform-origin: left;
+		transform: translateX(0);
+		opacity: 1;
 	}
 	50% {
-		opacity: 1;
-		transform: scaleX(1);
-	}
-	100% {
-		opacity: 0;
-		transform: scaleX(0) translateX(10px);
-		transform-origin: right;
+		transform: translateX(18px);
+		opacity: 0.3;
 	}
 }
 
+/* Fade in — scroll hint mouse icon */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Spin — loader */
 @keyframes spin {
 	from {
 		transform: rotate(0deg);
@@ -144,51 +130,7 @@ body {
 	}
 }
 
-@layer utilities {
-	@keyframes line-expand {
-		from {
-			width: 0;
-		}
-		to {
-			width: 48px;
-		}
-	}
-
-	@keyframes scroll-wheel-horizontal {
-		0%,
-		100% {
-			left: 8px;
-			opacity: 1;
-		}
-		50% {
-			left: 26px;
-			opacity: 0.3;
-		}
-	}
-
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-			transform: translateX(-10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	@screen sm {
-		@keyframes line-expand {
-			from {
-				width: 0;
-			}
-			to {
-				width: 64px;
-			}
-		}
-	}
-}
-
+/* Pulse */
 @keyframes pulse {
 	0%,
 	100% {
@@ -197,10 +139,6 @@ body {
 	50% {
 		opacity: 0.5;
 	}
-}
-
-.skeleton-loader {
-	animation: shimmer 1.5s infinite;
 }
 
 /* ─────────────────────────────────────────────
@@ -212,13 +150,7 @@ body {
 }
 
 .anim-glow-pulse {
-	animation: glowPulse 2s infinite;
-}
-.anim-scroll-line {
-	animation: scrollLine 2s ease infinite;
-}
-.anim-scroll-horizontal {
-	animation: scrollHorizontal 2s ease infinite;
+	animation: glowPulse 2s ease-in-out infinite;
 }
 
 /* ─────────────────────────────────────────────
@@ -494,7 +426,7 @@ button:focus {
 }
 
 /* ─────────────────────────────────────────────
-   RESPONSIVE / MEDIA QUERIES
+   MEDIA QUERIES
 ───────────────────────────────────────────── */
 
 /* Hide cursor on touch devices */

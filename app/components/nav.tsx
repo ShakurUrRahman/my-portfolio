@@ -101,6 +101,7 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 
 				{/* Hamburger */}
 				<button
+					aria-label="Open menu"
 					onClick={() => setMenuOpen((o) => !o)}
 					className="md:hidden flex flex-col justify-center items-center gap-1.5 w-8 h-8"
 					style={{

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import SpaceBackground from "./space-background";
 import Cursor from "./cursor";
@@ -171,7 +171,9 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 						className="w-screen h-full flex-shrink-0 snap-start overflow-y-auto overflow-x-hidden"
 						style={{ zIndex: 1 }}
 					>
-						<ProjectsSection data={data} />
+						<Suspense fallback={null}>
+							<ProjectsSection data={data} />
+						</Suspense>
 					</section>
 
 					<section

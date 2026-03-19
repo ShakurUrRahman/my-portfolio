@@ -6,21 +6,31 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 	const [progress, setProgress] = useState(0);
 	const [phase, setPhase] = useState(0); // 0=loading 1=done 2=exit
 
+	// ── Add/remove loading class on body ──
 	useEffect(() => {
-		// Ramp progress 0→100 over ~1.8s
+		document.body.classList.add("loading");
+		return () => document.body.classList.remove("loading");
+	}, []);
+
+	// ── Progress ramp 0→100 over ~1.8s ──
+	useEffect(() => {
 		const start = performance.now();
 		const duration = 1800;
-		const raf = requestAnimationFrame(function tick(now) {
+		let raf: number;
+
+		const tick = (now: number) => {
 			const p = Math.min(((now - start) / duration) * 100, 100);
 			setProgress(Math.floor(p));
 			if (p < 100) {
-				requestAnimationFrame(tick);
+				raf = requestAnimationFrame(tick);
 			} else {
 				setPhase(1);
 				setTimeout(() => setPhase(2), 400);
 				setTimeout(onDone, 800);
 			}
-		});
+		};
+
+		raf = requestAnimationFrame(tick);
 		return () => cancelAnimationFrame(raf);
 	}, [onDone]);
 
@@ -40,10 +50,8 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 				overflow: "hidden",
 			}}
 		>
-			{/* Stars */}
 			<Stars />
 
-			{/* Center content */}
 			<div
 				style={{
 					display: "flex",
@@ -56,7 +64,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 			>
 				{/* Logo ring */}
 				<div style={{ position: "relative", width: 88, height: 88 }}>
-					{/* Spinning ring */}
 					<svg
 						width="88"
 						height="88"
@@ -84,7 +91,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 							strokeWidth="1.5"
 							strokeLinecap="round"
 							strokeDasharray="60 192"
-							strokeDashoffset="0"
 						/>
 						<defs>
 							<linearGradient
@@ -106,7 +112,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 						</defs>
 					</svg>
 
-					{/* Logo */}
 					<div
 						style={{
 							position: "absolute",
@@ -127,7 +132,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 								fontSize: 22,
 								color: "#fff",
 								letterSpacing: "-0.02em",
-								opacity: phase >= 1 ? 1 : 0.9,
 							}}
 						>
 							SR
@@ -135,7 +139,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 					</div>
 				</div>
 
-				{/* Status text */}
+				{/* Status + progress bar */}
 				<div style={{ textAlign: "center" }}>
 					<p
 						style={{
@@ -150,7 +154,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 						{phase >= 1 ? "Ready" : "Initializing"}
 					</p>
 
-					{/* Progress bar */}
 					<div
 						style={{
 							width: 180,
@@ -172,7 +175,6 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 						/>
 					</div>
 
-					{/* Percentage */}
 					<p
 						style={{
 							fontFamily: "'DM Mono', monospace",
@@ -221,7 +223,6 @@ function Stars() {
 					}}
 				/>
 			))}
-			{/* Nebula glow */}
 			<div
 				style={{
 					position: "absolute",
