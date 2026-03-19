@@ -15,7 +15,7 @@ import {
 	ProjectTitle,
 } from "@/app/components/project/project-hero";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 // ── Static params ──────────────────────────────────────────────────
 export async function generateStaticParams() {
