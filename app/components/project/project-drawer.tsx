@@ -152,7 +152,6 @@ export default function ProjectDrawer({
 							project={project}
 							className="justify-center mb-3 sm:mb-4"
 							opacity=".4"
-							showDuration={false}
 						/>
 						<ProjectTags
 							project={project}

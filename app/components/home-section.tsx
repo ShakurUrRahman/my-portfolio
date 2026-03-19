@@ -83,9 +83,13 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 			<div className="flex items-center gap-4 mt-16">
 				{/* Left Line */}
 				<div
-					className="h-[1.5px] w-0 bg-gradient-to-r from-transparent to-purple-500/60 animate-[line-expand_0.8s_ease-out_2s_forwards]"
-					style={{ transformOrigin: "left" }}
-				></div>
+					className="h-[1.5px] bg-gradient-to-r from-transparent to-purple-500/60 animate-[line-expand_0.8s_ease-out_2s_forwards]"
+					style={{
+						transformOrigin: "left",
+						width: 48,
+						transform: "scaleX(0)",
+					}}
+				/>
 
 				{/* Animated Mouse (Horizontal) */}
 				<div className="w-11 h-7 border-2 border-purple-500/40 rounded-[14px] relative animate-[fade-in_0.8s_ease-out_1.6s_backwards]">
@@ -97,9 +101,13 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 
 				{/* Right Line */}
 				<div
-					className="h-[1.5px] w-0 bg-gradient-to-r from-purple-500/60 to-transparent animate-[line-expand_0.8s_ease-out_2.1s_forwards]"
-					style={{ transformOrigin: "right" }}
-				></div>
+					className="h-[1.5px] bg-gradient-to-r from-purple-500/60 to-transparent animate-[line-expand_0.8s_ease-out_2.1s_forwards]"
+					style={{
+						transformOrigin: "right",
+						width: 48,
+						transform: "scaleX(0)",
+					}}
+				/>
 
 				{/* Animated Chevron (Pointing Right) */}
 			</div>

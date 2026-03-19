@@ -29,21 +29,30 @@ export async function POST(req: NextRequest) {
 		const supabase = getSupabase();
 		const body = await req.json();
 
-		if (!body || !body.about || !body.projects || !body.messages) {
+		// Minimal validation — just needs to be an object with about
+		if (!body || typeof body !== "object" || !body.about) {
 			return NextResponse.json(
 				{ error: "Invalid data" },
 				{ status: 400 },
 			);
 		}
 
+		// upsert instead of update — creates row if missing
 		const { error } = await supabase
 			.from("portfolio")
-			.update({ data: body, updated_at: new Date().toISOString() })
-			.eq("id", "main");
+			.upsert(
+				{
+					id: "main",
+					data: body,
+					updated_at: new Date().toISOString(),
+				},
+				{ onConflict: "id" },
+			);
 
 		if (error) throw error;
 		return NextResponse.json({ ok: true });
-	} catch (e) {
+	} catch (e: any) {
+		console.error("Save error:", e?.message);
 		return NextResponse.json({ error: "Failed to save" }, { status: 500 });
 	}
 }

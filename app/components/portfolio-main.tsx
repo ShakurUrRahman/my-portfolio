@@ -22,7 +22,7 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+	const dataRef = useRef(data);
 	// ── Skip loader when coming from project page CTA ──
 	useEffect(() => {
 		const hasSection = new URLSearchParams(window.location.search).has(
@@ -32,13 +32,18 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 	}, []);
 
 	// ── Persist data to Supabase (debounced 800ms) ──
+
+	useEffect(() => {
+		dataRef.current = data;
+	}, [data]);
+
 	useEffect(() => {
 		if (!data?.about) return;
 		const timer = setTimeout(() => {
 			fetch("/api/data", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data),
+				body: JSON.stringify(dataRef.current), // ← always latest
 			});
 		}, 800);
 		return () => clearTimeout(timer);
