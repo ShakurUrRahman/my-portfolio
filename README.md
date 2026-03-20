@@ -148,7 +148,7 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 SUPABASE_SERVICE_KEY=your_supabase_service_role_key
 ADMIN_PASSWORD=your_admin_password
 BREVO_SMTP_USER=your_brevo_smtp_user
-BREVO_SMTP_KEY=your_brevo_smtp_key
+BREVO_SMTP_PASS=your_brevo_smtp_pass
 CONTACT_EMAIL=your_email@gmail.com
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```

@@ -69,7 +69,14 @@ export async function POST(req: NextRequest) {
         </body>
       `,
 		});
-
+		console.log(
+			"SMTP USER:",
+			process.env.BREVO_SMTP_USER ? "set" : "MISSING",
+		);
+		console.log(
+			"SMTP KEY:",
+			process.env.BREVO_SMTP_PASS ? "set" : "MISSING",
+		);
 		return NextResponse.json({ ok: true });
 	} catch (e: any) {
 		console.error("Mail error:", e?.message);
