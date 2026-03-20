@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, Suspense } from "react";
-import { useRouter } from "next/navigation";
 import SpaceBackground from "./space-background";
 import Cursor from "./cursor";
 import Nav from "./nav";
@@ -23,6 +22,7 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 	const logoClicks = useRef(0);
 	const logoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const dataRef = useRef(data);
+
 	// ── Skip loader when coming from project page CTA ──
 	useEffect(() => {
 		const hasSection = new URLSearchParams(window.location.search).has(
@@ -51,6 +51,8 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 
 	// ── Horizontal scroll + wheel hijack ──
 	useEffect(() => {
+		if (adminOpen) return;
+
 		const container = scrollContainerRef.current;
 		if (!container) return;
 
@@ -73,7 +75,7 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 			container.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("wheel", handleWheel);
 		};
-	}, []);
+	}, [adminOpen]);
 
 	// ── Scroll to section from ?section= param ──
 	useEffect(() => {
