@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Glass } from "..";
 
 const blankExp = {
@@ -298,6 +298,7 @@ export default function AdminExperience({
 }) {
 	const [showForm, setShowForm] = useState(false);
 	const [editingId, setEditingId] = useState<number | null>(null);
+	const dragIndex = useRef<number | null>(null);
 
 	const experiences: any[] = data.experience ?? [];
 
@@ -331,6 +332,21 @@ export default function AdminExperience({
 		? experiences.find((e) => e.id === editingId)
 		: null;
 
+	const onDragStart = (i: number) => {
+		dragIndex.current = i;
+	};
+	const onDragEnter = (i: number) => {
+		if (dragIndex.current === null || dragIndex.current === i) return;
+		const list = [...experiences];
+		const dragged = list.splice(dragIndex.current, 1)[0];
+		list.splice(i, 0, dragged);
+		dragIndex.current = i;
+		setData((d: any) => ({ ...d, experience: list }));
+	};
+	const onDragEnd = () => {
+		dragIndex.current = null;
+	};
+
 	return (
 		<div>
 			<div className="flex justify-end mb-4 sm:mb-5">
@@ -352,59 +368,86 @@ export default function AdminExperience({
 			)}
 
 			<div className="flex flex-col gap-2 sm:gap-3">
-				{experiences.map((exp) => (
-					<Glass key={exp.id} className="px-4 sm:px-5 py-3 sm:py-4">
-						<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-							<div className="flex-1 min-w-0">
-								<div className="flex items-center gap-2 flex-wrap">
-									<span className="font-syne font-semibold text-sm sm:text-base text-white truncate">
-										{exp.role}
-									</span>
-									{exp.current && (
-										<span
-											className="font-mono text-xs"
-											style={{
-												color: "rgba(16,185,129,.8)",
-											}}
-										>
-											● Current
-										</span>
-									)}
-								</div>
-								<div
-									className="font-mono text-xs mt-0.5 flex gap-3 flex-wrap"
-									style={{ color: "rgba(200,190,240,.4)" }}
-								>
-									<span>{exp.company}</span>
-									{exp.duration && (
-										<span>· {exp.duration}</span>
-									)}
-									{exp.type && <span>· {exp.type}</span>}
-								</div>
-							</div>
-							<div className="flex gap-2">
-								<button
-									onClick={() => openEdit(exp.id)}
-									className="btn-ghost font-mono text-xs rounded-lg px-3 py-1"
-									style={{ cursor: "pointer" }}
-								>
-									Edit
-								</button>
-								<button
-									onClick={() => del(exp.id)}
-									className="btn-danger font-mono text-xs rounded-lg px-3 py-1"
+				{" "}
+				{experiences.length > 1 && (
+					<p
+						className="font-mono text-xs text-right mb-1"
+						style={{ color: "rgba(200,190,240,.3)" }}
+					>
+						hold ⠿ to reorder
+					</p>
+				)}
+				{experiences.map((exp, i) => (
+					<div
+						key={exp.id}
+						draggable
+						onDragStart={() => onDragStart(i)}
+						onDragEnter={() => onDragEnter(i)}
+						onDragEnd={onDragEnd}
+						onDragOver={(e) => e.preventDefault()}
+					>
+						<Glass className="px-4 sm:px-5 py-3 sm:py-4 cursor-grab">
+							<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+								<span
+									className="hidden sm:block flex-shrink-0 select-none text-lg leading-none"
 									style={{
-										cursor: "pointer",
-										border: "none",
+										color: "rgba(139,92,246,.3)",
 									}}
 								>
-									Delete
-								</button>
+									⠿
+								</span>
+								<div className="flex-1 min-w-0">
+									<div className="flex items-center gap-2 flex-wrap">
+										<span className="font-syne font-semibold text-sm sm:text-base text-white truncate">
+											{exp.role}
+										</span>
+										{exp.current && (
+											<span
+												className="font-mono text-xs"
+												style={{
+													color: "rgba(16,185,129,.8)",
+												}}
+											>
+												● Current
+											</span>
+										)}
+									</div>
+									<div
+										className="font-mono text-xs mt-0.5 flex gap-3 flex-wrap"
+										style={{
+											color: "rgba(200,190,240,.4)",
+										}}
+									>
+										<span>{exp.company}</span>
+										{exp.duration && (
+											<span>· {exp.duration}</span>
+										)}
+										{exp.type && <span>· {exp.type}</span>}
+									</div>
+								</div>
+								<div className="flex gap-2">
+									<button
+										onClick={() => openEdit(exp.id)}
+										className="btn-ghost font-mono text-xs rounded-lg px-3 py-1"
+										style={{ cursor: "pointer" }}
+									>
+										Edit
+									</button>
+									<button
+										onClick={() => del(exp.id)}
+										className="btn-danger font-mono text-xs rounded-lg px-3 py-1"
+										style={{
+											cursor: "pointer",
+											border: "none",
+										}}
+									>
+										Delete
+									</button>
+								</div>
 							</div>
-						</div>
-					</Glass>
+						</Glass>
+					</div>
 				))}
-
 				{experiences.length === 0 && !showForm && (
 					<p
 						className="font-mono text-xs text-center py-8"
