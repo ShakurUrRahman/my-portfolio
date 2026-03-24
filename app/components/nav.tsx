@@ -90,7 +90,7 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 					))}
 					{/* Resume link */}
 					<Link
-						href="https://drive.google.com/file/d/1seZXv8y43tScjzrPNFCJ6dVUrzg5vTD0/view"
+						href="https://drive.google.com/file/d/1qjKso-fC4y3q7wE_qrtTzuitLU41Kh2N/view"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="btn-ghost font-mono text-xs uppercase tracking-wider rounded-lg px-3 lg:px-4 py-1 no-underline"
@@ -242,7 +242,7 @@ export default function Nav({ page, available, scrollToSection, onLogoClick }) {
 							</button>
 						))}
 						<Link
-							href="https://drive.google.com/file/d/1seZXv8y43tScjzrPNFCJ6dVUrzg5vTD0/view"
+							href="https://drive.google.com/file/d/1qjKso-fC4y3q7wE_qrtTzuitLU41Kh2N/view"
 							target="_blank"
 							rel="noopener noreferrer"
 							onClick={closeDrawer}
