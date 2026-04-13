@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Glass, SectionTitle } from ".";
+import { socials } from "./home-section";
+import Link from "next/link";
 
 export default function ContactSection({
 	onNewMessage,
@@ -51,15 +53,14 @@ export default function ContactSection({
 	return (
 		<div
 			className="min-h-screen
-      pt-24 sm:pt-28 md:pt-32 lg:pt-36
+      pt-20 sm:pt-24 md:pt-28 lg:pt-32
       pb-12 sm:pb-16 md:pb-20
       px-4 sm:px-6 md:px-10
       max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl
       mx-auto"
 		>
 			<SectionTitle label="004" title="Get In Touch" />
-
-			<Glass className="p-6 sm:p-8 md:p-10 lg:p-12 mt-8 sm:mt-10 md:mt-12">
+			<Glass className="p-6 sm:p-8 md:p-10 lg:p-12 mt-6 sm:mt-8 md:mt-10">
 				{sent ? (
 					<div className="text-center py-6 sm:py-10">
 						<div className="text-4xl sm:text-5xl mb-4 sm:mb-5">
@@ -189,7 +190,33 @@ export default function ContactSection({
 						)}
 					</form>
 				)}
-			</Glass>
+			</Glass>{" "}
+			<div
+				className="flex items-center justify-center gap-2 mt-6 anim-fade-up px-2 py-1 rounded-2xl"
+				style={{
+					animationDelay: "1.1s",
+					background: "#8b5cf67",
+					border: "1px solid rgba(139,92,246, 0.1)",
+					backdropFilter: "blur(10px)",
+				}}
+			>
+				{socials.map((social, idx) => (
+					<Link
+						key={idx}
+						href={social.link}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="transition-all duration-300 transform hover:scale-110"
+						aria-label={social.label}
+					>
+						<img
+							src={social.iconPath}
+							alt={social.label}
+							className="w-[60px] h-[60px] object-contain ml-1.5 mt-1.5"
+						/>
+					</Link>
+				))}
+			</div>
 		</div>
 	);
 }

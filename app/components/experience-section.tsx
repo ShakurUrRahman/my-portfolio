@@ -55,7 +55,7 @@ export default function ExperienceSection({ data }: { data: any }) {
 			max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl
 			mx-auto"
 		>
-			<SectionTitle label="003" title="Experience" />
+			<SectionTitle label="003" title="Experience & Education" />
 
 			{experiences.length === 0 ? (
 				<p
@@ -236,6 +236,108 @@ export default function ExperienceSection({ data }: { data: any }) {
 					</div>
 				</div>
 			)}
+			<div className="mt-10">
+				{/* Sub-header that bridges from Experience */}
+				<div className="flex items-center gap-4 mb-10 sm:mb-12">
+					<h2 className="font-syne font-bold text-xl sm:text-2xl text-white/90">
+						Education
+					</h2>
+					<div className="h-px flex-1 bg-gradient-to-r from-purple-500/20 to-transparent" />
+				</div>
+
+				<div className="relative">
+					{/* Timeline line - bridges the gap from the section above */}
+					<div
+						className="absolute left-[7px] sm:left-[9px] top-0 bottom-2 w-px hidden sm:block"
+						style={{
+							background:
+								"linear-gradient(to bottom, rgba(139,92,246,.15), rgba(139,92,246,.3), rgba(139,92,246,.05))",
+						}}
+					/>
+
+					<div className="flex flex-col gap-8">
+						<div className="flex gap-5 sm:gap-8 group">
+							{/* Timeline dot */}
+							<div
+								className="flex-shrink-0 hidden sm:flex flex-col items-center"
+								style={{ paddingTop: 4 }}
+							>
+								<div
+									className="w-[18px] h-[18px] rounded-full border-2 transition-all duration-300 group-hover:scale-125 bg-[#050312]"
+									style={{
+										borderColor: "rgba(139,92,246,.35)",
+									}}
+								/>
+							</div>
+
+							{/* Static Card */}
+							<div
+								className="flex-1 rounded-2xl p-5 sm:p-6 md:p-7 transition-all duration-300 group-hover:border-purple-500/30"
+								style={{
+									background: "rgba(139,92,246,.02)",
+									border: "1px solid rgba(139,92,246,.1)",
+								}}
+							>
+								<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3">
+									<div className="min-w-0">
+										<h3 className="font-syne font-bold text-white text-base sm:text-lg mb-1">
+											BSc in Electronics and
+											Telecommunication Engineering
+										</h3>
+										<p
+											className="font-mono text-sm"
+											style={{
+												color: "rgba(6,182,212,.8)",
+											}}
+										>
+											University of Liberal Arts
+											Bangladesh
+										</p>
+									</div>
+
+									<div className="flex flex-col sm:items-end gap-1.5 flex-shrink-0">
+										<span
+											className="font-mono text-xs"
+											style={{
+												color: "rgba(200,190,240,.35)",
+											}}
+										>
+											2009 — 2014
+										</span>
+									</div>
+								</div>
+
+								<p
+									className="font-mono text-xs mb-3"
+									style={{
+										color: "rgba(200,190,240,.35)",
+									}}
+								>
+									📍 Dhaka, Bangladesh
+								</p>
+
+								<p
+									className="font-mono text-xs sm:text-sm leading-loose"
+									style={{
+										color: "rgba(200,190,240,.65)",
+									}}
+								>
+									Developed a unique technical foundation by
+									combining core communication engineering
+									with the logic of system-level computing. I
+									specialized in the intersection of hardware
+									and data flow, focusing on how internal
+									system structures interact with broader
+									communication networks. This hybrid
+									perspective allows me to build software with
+									a deep appreciation for the underlying
+									infrastructure and efficiency.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }

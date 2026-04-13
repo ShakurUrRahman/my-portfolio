@@ -1,4 +1,27 @@
+import Link from "next/link";
 import { AnimatedTitle } from ".";
+export const socials = [
+	{
+		iconPath: "/social-icons/Gmail.svg",
+		link: `mailto:shakururrahman@gmail.com`,
+		label: "Gmail",
+	},
+	{
+		iconPath: "/social-icons/GitHub.svg",
+		link: "https://github.com/ShakururRahman",
+		label: "GitHub",
+	},
+	{
+		iconPath: "/social-icons/Linkedin.svg",
+		link: "https://www.linkedin.com/in/shakururrahman",
+		label: "LinkedIn",
+	},
+	{
+		iconPath: "/social-icons/Whatsapp.svg",
+		link: `https://wa.me/+8801723688633`,
+		label: "WhatsApp",
+	},
+];
 
 export default function HomeSection({ data, setPage, scrollToSection }) {
 	return (
@@ -12,7 +35,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 			{data.about.available && (
 				<div
 					className="inline-flex items-center gap-2 avail-badge rounded-full
-          px-3 sm:px-5 py-1 mb-6 sm:mb-8 md:mb-10 anim-fade-up"
+          px-3 sm:px-5 py-1 mb-5 sm:mb-7 md:mb-9 anim-fade-up"
 					style={{ animationDelay: ".1s" }}
 				>
 					<span
@@ -27,7 +50,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 
 			{/* Name */}
 			<h1
-				className="font-syne font-extrabold text-white mb-4 sm:mb-5 md:mb-7"
+				className="font-syne font-extrabold text-white mb-3 sm:mb-4 md:mb-6"
 				style={{
 					fontSize: "clamp(40px,10vw,110px)",
 					lineHeight: 0.95,
@@ -39,7 +62,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 
 			{/* Role */}
 			<p
-				className="font-mono uppercase tracking-widest text-purple-400 mb-5 sm:mb-6 md:mb-8 anim-fade-up
+				className="font-mono uppercase tracking-widest text-purple-400 mb-3 sm:mb-4 md:mb-6 anim-fade-up
         text-xs sm:text-sm md:text-base lg:text-lg"
 				style={{ animationDelay: ".8s" }}
 			>
@@ -49,7 +72,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 			{/* Bio */}
 			<p
 				className="font-mono leading-loose max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl
-        mb-8 sm:mb-10 md:mb-14 anim-fade-up
+        mb-6 sm:mb-8 md:mb-12 anim-fade-up
         text-xs sm:text-sm md:text-base"
 				style={{ color: "rgba(200,190,240,.65)", animationDelay: "1s" }}
 			>
@@ -78,9 +101,35 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 					Get in Touch
 				</button>
 			</div>
+			<div
+				className="flex items-center gap-2 mt-8 anim-fade-up px-2 py-1 rounded-2xl"
+				style={{
+					animationDelay: "1.1s",
+					background: "#8b5cf67",
+					border: "1px solid rgba(139,92,246, 0.1)",
+					backdropFilter: "blur(10px)",
+				}}
+			>
+				{socials.map((social, idx) => (
+					<Link
+						key={idx}
+						href={social.link}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="transition-all duration-300 transform hover:scale-110"
+						aria-label={social.label}
+					>
+						<img
+							src={social.iconPath}
+							alt={social.label}
+							className="w-[60px] h-[60px] object-contain ml-1.5 mt-1.5"
+						/>
+					</Link>
+				))}
+			</div>
 
 			{/* Scroll hint — hidden on very small screens */}
-			<div className="flex items-center gap-2 sm:gap-4 mt-16">
+			<div className="flex items-center gap-2 sm:gap-4 mt-8">
 				{/* Left Line */}
 				<div
 					className="h-[1px] sm:h-[1.5px] bg-gradient-to-r from-transparent to-purple-500/60 animate-[line-expand_0.8s_ease-out_2s_forwards]"
