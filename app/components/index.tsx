@@ -31,10 +31,13 @@ export function AnimatedTitle({ text, delay = 0 }) {
 			{text?.split("").map((ch, i) => (
 				<span
 					key={i}
-					className="inline-block anim-fade-up"
+					className="inline-block anim-fade-up bg-clip-text text-transparent bg-gradient-to-r from-slate-50 via-purple-200 to-sky-300"
 					style={{
 						animationDelay: `${delay + i * 0.04}s`,
 						whiteSpace: ch === " " ? "pre" : undefined,
+						WebkitBackgroundClip: "text",
+						WebkitTextFillColor: "transparent",
+						backgroundSize: "200% 200%", // Keeps the gradient large
 					}}
 				>
 					{ch}
