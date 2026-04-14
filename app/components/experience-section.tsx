@@ -52,7 +52,7 @@ export default function ExperienceSection({ data }: { data: any }) {
 			pt-24 sm:pt-28 md:pt-32 lg:pt-36
 			pb-12 sm:pb-16 md:pb-20
 			px-4 sm:px-6 md:px-10
-			max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl
+			max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl
 			mx-auto"
 		>
 			<SectionTitle label="003" title="Experience & Education" />
@@ -238,7 +238,7 @@ export default function ExperienceSection({ data }: { data: any }) {
 			)}
 			<div className="mt-10">
 				{/* Sub-header that bridges from Experience */}
-				<div className="flex items-center gap-4 mb-10 sm:mb-12">
+				<div className="flex items-center gap-4 mb-6 sm:mb-8">
 					<h2 className="font-syne font-bold text-xl sm:text-2xl text-white/90">
 						Education
 					</h2>

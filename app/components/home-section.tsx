@@ -93,7 +93,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 					View Work
 				</button>
 				<button
-					onClick={() => scrollToSection(3)}
+					onClick={() => scrollToSection(4)}
 					className="btn-outline font-mono text-xs uppercase tracking-widest
             rounded-xl px-6 sm:px-8 md:px-9 py-3 sm:py-3.5 w-1/2 sm:w-auto"
 					style={{ cursor: "pointer" }}
@@ -102,12 +102,13 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 				</button>
 			</div>
 			<div
-				className="flex items-center gap-2 mt-8 anim-fade-up px-2 py-1 rounded-2xl"
+				className="flex items-center md:gap-2 mt-8 anim-fade-up md:px-2 md:py-1 rounded-2xl"
 				style={{
 					animationDelay: "1.1s",
-					background: "#8b5cf67",
-					border: "1px solid rgba(139,92,246, 0.1)",
-					backdropFilter: "blur(10px)",
+					background: "transparent",
+					border: "1px solid rgba(139, 92, 246, 0.3)",
+					transition: "all 0.3s ease",
+					WebkitBackdropFilter: "blur(20px)",
 				}}
 			>
 				{socials.map((social, idx) => (

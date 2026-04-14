@@ -192,12 +192,13 @@ export default function ContactSection({
 				)}
 			</Glass>{" "}
 			<div
-				className="flex items-center justify-center gap-2 mt-6 anim-fade-up px-2 py-1 rounded-2xl"
+				className="flex justify-center items-center md:gap-2 mt-8 anim-fade-up md:px-2 md:py-1 rounded-2xl"
 				style={{
 					animationDelay: "1.1s",
-					background: "#8b5cf67",
-					border: "1px solid rgba(139,92,246, 0.1)",
-					backdropFilter: "blur(10px)",
+					background: "transparent",
+					border: "1px solid rgba(139, 92, 246, 0.3)",
+					transition: "all 0.3s ease",
+					WebkitBackdropFilter: "blur(20px)",
 				}}
 			>
 				{socials.map((social, idx) => (

@@ -6,7 +6,14 @@ import SkillBar from "./skill-bar";
 
 // ── Map skill names to SVG icons ──
 const SKILL_ICONS: Record<string, JSX.Element> = {
-	// React / Next.js
+	javascript: (
+		<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+			<rect x="2" y="2" width="20" height="20" rx="3" />
+			<text x="5" y="17" fontSize="10" fontWeight="bold" fill="#020208">
+				JS
+			</text>
+		</svg>
+	),
 	react: (
 		<svg
 			viewBox="0 0 24 24"
@@ -48,12 +55,10 @@ const SKILL_ICONS: Record<string, JSX.Element> = {
 			</text>
 		</svg>
 	),
-	javascript: (
+
+	node: (
 		<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-			<rect x="2" y="2" width="20" height="20" rx="3" />
-			<text x="5" y="17" fontSize="10" fontWeight="bold" fill="#020208">
-				JS
-			</text>
+			<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.3l7.5 3.75-7.5 3.75L4.5 8.05 12 4.3zM4 9.5l7 3.5v6.7L4 16.2V9.5zm9 10.2v-6.7l7-3.5v6.7l-7 3.5z" />
 		</svg>
 	),
 	// CSS / Tailwind
@@ -68,14 +73,10 @@ const SKILL_ICONS: Record<string, JSX.Element> = {
 		</svg>
 	),
 	// Node / Express
-	node: (
-		<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-			<path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.3l7.5 3.75-7.5 3.75L4.5 8.05 12 4.3zM4 9.5l7 3.5v6.7L4 16.2V9.5zm9 10.2v-6.7l7-3.5v6.7l-7 3.5z" />
-		</svg>
-	),
+
 	express: (
 		<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-			<path d="M3 12h4l3-9 4 18 3-9h4" />
+			<path d="M24 18.588a1.529 1.529 0 01-1.895-.72l-3.45-4.771-.5-.667-4.003 5.444a1.466 1.466 0 01-1.802.708l5.158-6.92-4.798-6.251a1.595 1.595 0 011.9.666l3.576 4.83 3.596-4.81a1.435 1.435 0 011.788-.668L21.708 7.9l-2.522 3.283a.666.666 0 000 .994l4.804 6.412zM.002 11.576l.42-2.075c1.154-4.103 5.858-5.81 9.094-3.27 1.895 1.489 2.368 3.597 2.275 5.973H1.116C.943 16.447 4.005 19.009 7.92 17.7a4.078 4.078 0 002.582-2.876c.207-.666.548-.78 1.174-.588a5.417 5.417 0 01-2.589 3.957 6.272 6.272 0 01-7.306-.933 6.575 6.575 0 01-1.64-3.858c0-.235-.08-.455-.134-.666A88.33 88.33 0 010 11.577zm1.127-.286h9.654c-.06-3.076-2.001-5.258-4.59-5.278-2.882-.04-4.944 2.094-5.071 5.264z" />
 		</svg>
 	),
 	// Database
@@ -193,7 +194,7 @@ export default function AboutSection({ data }) {
 		>
 			<SectionTitle label="001" title="About Me" />
 
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 mt-8 sm:mt-10 md:mt-12">
+			<div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-5 sm:gap-6 md:gap-8 mt-8 sm:mt-10 md:mt-12">
 				{/* Bio card */}
 				<Glass hover className="p-6 sm:p-8 md:p-10">
 					<div
@@ -239,7 +240,10 @@ export default function AboutSection({ data }) {
 				</Glass>
 
 				{/* Skills card */}
-				<Glass hover className="p-6 sm:p-8 md:p-10">
+				<div
+					className="p-6 sm:p-8 md:p-10 rounded-2xl glass-hover"
+					style={{ border: "1px solid rgba(139, 92, 246, 0.3)" }}
+				>
 					<h4 className="font-syne font-bold text-white text-base sm:text-lg mb-5 md:mb-7">
 						Skills & Technologies
 					</h4>
@@ -269,7 +273,7 @@ export default function AboutSection({ data }) {
 								</div>
 							))}
 					</div>
-				</Glass>
+				</div>
 			</div>
 		</div>
 	);
