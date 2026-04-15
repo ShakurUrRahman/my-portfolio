@@ -130,7 +130,7 @@ export default function PortfolioMain({ data: initialData }: { data: any }) {
 
 	return (
 		<>
-			{loading && <Loader onDone={() => setLoading(false)} />}
+			{/* {loading && <Loader onDone={() => setLoading(false)} />} */}
 
 			<SpaceBackground />
 			<Cursor />
