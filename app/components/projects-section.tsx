@@ -107,8 +107,8 @@ export default function ProjectsSection({ data }: { data: any }) {
 	const ref = useRef(null);
 	const isInView = useInView(ref, {
 		once: true,
-		amount: 0.2,
-		margin: "0px -200px 0px 0px",
+		amount: 0.1, // Trigger when just 10% is visible (safer for mobile)
+		margin: "-10% 0px -10% 0px", // Use a small vertical offset instead
 	});
 
 	// Read project id from URL and find the matching project
