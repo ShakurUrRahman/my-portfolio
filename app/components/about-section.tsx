@@ -258,8 +258,8 @@ export default function AboutSection({ data }) {
 	const ref = useRef(null);
 	const isInView = useInView(ref, {
 		once: true,
-		amount: 0.3, // Trigger when 30% of section is visible
-		margin: "0px -200px 0px 0px", // Trigger earlier for horizontal scroll
+		amount: 0.1, // Trigger when just 10% is visible (safer for mobile)
+		margin: "-10% 0px -10% 0px", // Use a small vertical offset instead
 	});
 
 	return (
