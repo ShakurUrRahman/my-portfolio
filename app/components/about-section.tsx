@@ -213,7 +213,7 @@ const imageVariants = {
 		rotate: -10,
 	},
 	visible: {
-		opacity: 0.65,
+		opacity: 0.7,
 		scale: 1,
 		rotate: 0,
 		transition: {
@@ -297,23 +297,14 @@ export default function AboutSection({ data }) {
 
 						<motion.div
 							variants={imageVariants}
-							whileHover={{
-								opacity: 0.95,
-								scale: 1.05,
-								rotate: 2,
-								transition: { duration: 0.3 },
-							}}
+							className="mx-auto mb-4 sm:float-right sm:ml-3 sm:mb-3 sm:mx-0 w-[190px] h-[257px] rounded-xl border-4 border-transparent animate-border [background:linear-gradient(#090718,#090718)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.purple.600/.48)_80%,theme(colors.fuchsia.500)_86%,theme(colors.cyan.300)_90%,theme(colors.fuchsia.500)_94%,theme(colors.purple.600/.48))_border-box] transition-all duration-500 ease-out relative z-10"
 						>
 							<Image
 								width={190}
 								height={190}
 								src="/my-image.png"
 								alt="Shakurur Rahman"
-								className="block mx-auto mb-4 sm:float-right sm:ml-3 sm:mb-3 sm:mx-0 border-4 rounded-xl object-cover transition-all duration-500 ease-out relative z-10"
-								style={{
-									background: "transparent",
-									border: "3px solid rgba(139, 92, 246, 0.3)",
-								}}
+								className="object-cover rounded-[10px] w-[190px] h-[250px] bg-transparent"
 							/>
 						</motion.div>
 
