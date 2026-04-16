@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimatedTitle } from ".";
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/useMobile";
 
 export const socials = [
 	{
@@ -85,6 +86,8 @@ const socialIconVariant = {
 
 export default function HomeSection({ data, setPage, scrollToSection }) {
 	const [isReady, setIsReady] = useState(false);
+
+	const isMobile = useIsMobile();
 
 	// Trigger animations when data is ready
 	useEffect(() => {
@@ -409,7 +412,7 @@ export default function HomeSection({ data, setPage, scrollToSection }) {
 								className="w-1.5 h-[2px] sm:w-2 sm:h-[3px] bg-purple-500/60 rounded-sm absolute top-1/2 -translate-y-1/2"
 								style={{ left: 2 }}
 								animate={{
-									x: [0, 26, 0],
+									x: isMobile ? [0, 20, 0] : [0, 26, 0],
 								}}
 								transition={{
 									duration: 2,
