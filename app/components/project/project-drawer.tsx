@@ -26,7 +26,6 @@ export default function ProjectDrawer({
 	onClose: () => void;
 }) {
 	const [visible, setVisible] = useState(false);
-	// console.log(project.title);
 
 	// Animate in + lock scroll
 	useEffect(() => {
