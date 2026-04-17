@@ -152,7 +152,7 @@ export default function ContactSection({
       pt-20 sm:pt-24 md:pt-28 lg:pt-32
       pb-12 sm:pb-16 md:pb-20
       px-4 sm:px-6 md:px-10
-      max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl
+      max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl
       mx-auto"
 			initial="hidden"
 			animate={isInView ? "visible" : "hidden"}
@@ -415,7 +415,6 @@ export default function ContactSection({
 				style={{
 					background: "transparent",
 					border: "1px solid rgba(139, 92, 246, 0.3)",
-					backdropFilter: "blur(20px)",
 				}}
 				variants={itemVariants}
 			>
